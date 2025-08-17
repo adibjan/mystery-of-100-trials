@@ -3,48 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>سایت من</title>
+  <title>خانه - سایت من</title>
   <style>
-    body {
-      font-family: Tahoma, sans-serif;
-      background: linear-gradient(to right, #74ebd5, #ACB6E5);
-      color: #333;
-      text-align: center;
-      padding: 50px;
-    }
-    h1 {
-      font-size: 3em;
-      color: #fff;
-      margin-bottom: 20px;
-      text-shadow: 2px 2px 4px #00000050;
-    }
-    p {
-      font-size: 1.2em;
-      color: #fff;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    .btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 25px;
-      background: #fff;
-      color: #333;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      box-shadow: 2px 2px 8px #00000030;
-      transition: all 0.3s ease;
-    }
-    .btn:hover {
-      background: #f0f0f0;
-      transform: translateY(-3px);
-    }
+    body { font-family: Tahoma, sans-serif; margin:0; padding:0; background: linear-gradient(to right, #74ebd5, #ACB6E5); color:#333; text-align:center; }
+    nav { background:#333; padding:10px; }
+    nav a { color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; }
+    nav a:hover { text-decoration:underline; }
+    h1 { margin-top:50px; color:#fff; text-shadow: 2px 2px 4px #00000050; }
+    p { color:#fff; font-size:1.2em; max-width:600px; margin:20px auto; }
+    .btn { display:inline-block; margin-top:20px; padding:10px 20px; background:#fff; color:#333; border-radius:8px; text-decoration:none; font-weight:bold; }
+    .btn:hover { background:#f0f0f0; }
   </style>
 </head>
 <body>
+  <nav>
+    <a href="index.html">خانه</a>
+    <a href="about.html">درباره ما</a>
+    <a href="contact.html">تماس با ما</a>
+  </nav>
   <h1>سلام دنیا!</h1>
-  <p>این اولین سایت حرفه‌ای من است که در Termux و GitHub Pages ساخته شده. حالا سایت من جهانی و همیشه آنلاین است!</p>
+  <p>این سایت حرفه‌ای من است که در Termux و GitHub Pages ساخته شده و حالا جهانی و همیشه آنلاین است!</p>
   <a href="about.html" class="btn">درباره ما</a>
+  <a href="contact.html" class="btn">تماس با ما</a>
 </body>
 </html>

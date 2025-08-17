@@ -4,25 +4,28 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>تماس با ما - سایت من</title>
-  <style>
-    body { font-family: Tahoma, sans-serif; margin:0; padding:0; background: linear-gradient(to right, #a1c4fd, #c2e9fb); color:#333; text-align:center; }
-    nav { background:#333; padding:10px; }
-    nav a { color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; }
-    nav a:hover { text-decoration:underline; }
-    h1 { margin-top:50px; color:#fff; text-shadow: 2px 2px 4px #00000050; }
-    p { color:#fff; font-size:1.2em; max-width:600px; margin:20px auto; }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <nav>
-    <a href="index.html">خانه</a>
-    <a href="about.html">درباره ما</a>
-    <a href="contact.html">تماس با ما</a>
-  </nav>
-  <h1>تماس با من</h1>
-<p>برای همکاری یا پرسش‌های شما، می‌توانید از راه‌های زیر ارتباط بگیرید:</p>
-<ul>
-  <li>ایمیل: adibjan@gmail.com</li>
-  <li>تلگرام: <a href="https://t.me/YourUsername" target="_blank">@Adib0731</a></li>
-  <li>اینستاگرام: <a href="https://instagram.com/YourUsername" target="_blank">instagram.com/adibazimi3</a></li>
-</ul>
+  <header>
+    <nav>
+      <a href="index.html">خانه</a>
+      <a href="about.html">درباره ما</a>
+      <a href="contact.html" class="active">تماس با ما</a>
+    </nav>
+  </header>
+  <main>
+    <h1>تماس با ما</h1>
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="نام شما" required>
+      <input type="email" name="email" placeholder="ایمیل شما" required>
+      <textarea name="message" placeholder="پیام شما" required></textarea>
+      <button type="submit">ارسال</button>
+    </form>
+  </main>
+  <footer>
+    <p>© 2025 سایت من. همه حقوق محفوظ است.</p>
+  </footer>
+</body>
+</html>

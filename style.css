@@ -1,75 +1,68 @@
-body {
-  font-family: Tahoma, sans-serif;
+/* Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Tahoma, sans-serif;
   background: linear-gradient(to right, #74ebd5, #ACB6E5);
   color: #333;
-  text-align: center;
 }
 
 header {
-  background: rgba(0,0,0,0.5);
-  padding: 15px 0;
-}
-
-nav a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 15px;
-  font-weight: bold;
-}
-
-nav a.active {
-  border-bottom: 2px solid #fff;
-}
-
-main {
+  text-align: center;
   padding: 50px 20px;
 }
 
-h1 {
-  color: #fff;
-  text-shadow: 2px 2px 5px #00000050;
-}
-
-p {
-  color: #fff;
-  max-width: 600px;
-  margin: 20px auto;
-}
-
-form {
+.menu {
+  list-style: none;
   display: flex;
-  flex-direction: column;
-  max-width: 400px;
-  margin: 0 auto;
+  justify-content: center;
+  margin-bottom: 30px;
 }
 
-input, textarea {
-  padding: 10px;
-  margin: 10px 0;
-  border-radius: 6px;
-  border: none;
+.menu li {
+  margin: 0 15px;
 }
 
-button {
-  padding: 12px;
-  background: #fff;
-  color: #333;
-  border: none;
-  border-radius: 6px;
+.menu a {
+  text-decoration: none;
   font-weight: bold;
-  cursor: pointer;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
   transition: 0.3s;
 }
 
-button:hover {
-  background: #f0f0f0;
+.menu a:hover {
+  background: #fff;
+  color: #333;
+  transform: translateY(-3px);
+}
+
+.hero h1 {
+  font-size: 3em;
+  color: #fff;
+  text-shadow: 2px 2px 8px #00000050;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  color: #fff;
+}
+
+.about {
+  padding: 50px 20px;
+  text-align: center;
 }
 
 footer {
-  margin-top: 50px;
-  padding: 20px;
-  background: rgba(0,0,0,0.5);
+  background: #333;
   color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 50px;
 }

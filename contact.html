@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>تماس با ما - سایت حرفه‌ای من</title>
+  <title>Contact - My Website</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <nav>
-      <a href="index.html" class="logo">سایت من</a>
+      <a href="index.html" class="logo">My Website</a>
       <ul class="menu">
-        <li><a href="index.html">خانه</a></li>
-        <li><a href="about.html">درباره ما</a></li>
-        <li><a href="contact.html">تماس با ما</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
   </header>
 
-  <section id="contact">
-    <h1>تماس با ما</h1>
-    <form>
-      <input type="text" placeholder="Your name" required>
-      <input type="email" placeholder="Your email" required>
-      <textarea placeholder="Your message"></textarea>
-      <button type="submit" class="btn">Send message</button>
-    </form>
-  </section>
+  <main>
+    <h2>Contact Form</h2>
+    <form action="https://formsubmit.co/jansadat82@gmail.com" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
 
-  <script src="script.js"></script>
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Message:</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+
+      <!-- Hidden settings -->
+      <input type="hidden" name="_next" value="https://adibjan.github.io/my-website/contact.html">
+      <input type="hidden" name="_captcha" value="false">
+
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
 </body>
 </html>

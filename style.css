@@ -103,7 +103,7 @@ section {
   transition: all 0.8s ease-out;
 }
 
-/* ===== نمونه کارها ===== */
+/* ===== Portifilo ===== */
 .cards {
   display: flex;
   flex-wrap: wrap;
@@ -141,4 +141,34 @@ form input, form textarea {
 form button {
   width: 150px;
   cursor: pointer;
+}
+form {
+  background: #f9f9f9;
+  padding: 20px;
+  max-width: 500px;
+  margin: 20px auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button {
+  background: #74ebd5;
+  border: none;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #ACB6E5;
 }

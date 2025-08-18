@@ -1,68 +1,144 @@
-/* Reset */
+/* ===== Reset & پایه ===== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Tahoma, sans-serif;
 }
 
 body {
-  font-family: Tahoma, sans-serif;
   background: linear-gradient(to right, #74ebd5, #ACB6E5);
   color: #333;
+  line-height: 1.6;
 }
 
+/* ===== منو ===== */
 header {
-  text-align: center;
-  padding: 50px 20px;
+  background: rgba(255,255,255,0.9);
+  padding: 10px 20px;
+  position: relative;
+}
+
+header.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.logo {
+  font-weight: bold;
+  color: #333;
+  text-decoration: none;
+  font-size: 1.5em;
 }
 
 .menu {
   list-style: none;
   display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-}
-
-.menu li {
-  margin: 0 15px;
+  gap: 15px;
 }
 
 .menu a {
   text-decoration: none;
+  color: #333;
   font-weight: bold;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 8px;
-  transition: 0.3s;
+  transition: all 0.3s ease;
 }
 
 .menu a:hover {
-  background: #fff;
-  color: #333;
-  transform: translateY(-3px);
+  color: #FF6347;
+}
+
+/* ===== هرو ===== */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
 }
 
 .hero h1 {
   font-size: 3em;
   color: #fff;
-  text-shadow: 2px 2px 8px #00000050;
-  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px #00000050;
 }
 
 .hero p {
   font-size: 1.2em;
   color: #fff;
+  margin: 20px 0;
 }
 
-.about {
-  padding: 50px 20px;
-  text-align: center;
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background: #fff;
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 2px 2px 8px #00000030;
+  transition: all 0.3s ease;
 }
 
-footer {
-  background: #333;
-  color: #fff;
-  text-align: center;
-  padding: 20px 0;
-  margin-top: 50px;
+.btn:hover {
+  background: #f0f0f0;
+  transform: translateY(-3px);
+}
+
+/* ===== بخش‌ها ===== */
+section {
+  padding: 60px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* ===== انیمیشن fade-in ===== */
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.8s ease-out;
+}
+
+/* ===== نمونه کارها ===== */
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  flex: 1 1 250px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* ===== فرم تماس ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+form input, form textarea {
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+}
+
+form button {
+  width: 150px;
+  cursor: pointer;
 }

@@ -1,27 +1,156 @@
-
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adibjan | Personal Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Modern Animated Page 2025</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+  body {
+    margin: 0; 
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  header {
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.25);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  header .logo {
+    font-weight: 700;
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    user-select: none;
+  }
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0; margin: 0;
+  }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  nav ul li a::after {
+    content: '';
+position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: white;
+    transition: width 0.3s ease;
+  }
+  nav ul li a:hover {
+    color: #ffdd57;
+  }
+  nav ul li a:hover::after {
+    width: 100%;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  main h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    animation: fadeInSlideDown 1s ease forwards;
+  }
+  main p {
+    font-size: 1.25rem;
+    max-width: 600px;
+    margin-bottom: 40px;
+    animation: fadeInSlideUp 1.2s ease forwards;
+  }
+  button {
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2575fc;
+    background: white;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255,255,255,0.4);
+    transition: background 0.3s ease, transform 0.3s ease;
+    animation: bounceIn 1.5s ease forwards;
+  }
+  button:hover {
+    background: #ffdd57;
+    transform: scale(1.1);
+  }
+
+  @keyframes fadeInSlideDown {
+    0% {opacity: 0; transform: translateY(-40px);}
+    100% {opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeInSlideUp {
+    0% {opacity: 0; transform: translateY(40px);}
+100% {opacity: 1; transform: translateY(0);}
+  }
+  @keyframes bounceIn {
+    0% {opacity: 0; transform: scale(0.8);}
+    60% {opacity: 1; transform: scale(1.1);}
+    100% {transform: scale(1);}
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.25);
+    color: #ddd;
+  }
+
+  @media (max-width: 600px) {
+    main h1 {
+      font-size: 2.2rem;
+    }
+    main p {
+      font-size: 1rem;
+    }
+  }
+</style>
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">Adibjan</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <div class="hero">
-      <h1>Welcome to My Website</h1>
-      <p></p>
-    </div>
-  </header>
+<header>
+  <div class="logo">MySite</div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">About us</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+<main>
+  <h1>Welcome to My Modern Site!</h1>
+  <p>Experience a sleek design with smooth animations and a responsive layout for 2025 and beyond.</p>
+  <button>Contact Me</button>
+</main>
+<footer>
+  &copy; 2025 MySite. All rights reserved.
+</footer>
 </body>
 </html>

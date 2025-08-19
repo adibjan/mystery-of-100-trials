@@ -1,24 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #ffecd2, #fcb69f);
+      margin: 0;
+      padding: 0;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+    header {
+      background: #333;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      color: white;
+      animation: slideDown 1.5s ease;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+    nav a:hover {
+      color: #fcb69f;
+      transform: scale(1.1);
+    }
+    main {
+      padding: 80px 20px;
+      text-align: center;
+      color: #444;
+      animation: fadeInUp 1.5s ease;
+    }
+
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    @keyframes slideDown { from {transform: translateY(-50px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+    @keyframes fadeInUp { from {transform: translateY(50px); opacity:0;} to {transform: translateY(0); opacity:1;} }
+  </style>
 </head>
 <body>
   <header>
+    <h1>About Us</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact</a>
     </nav>
   </header>
-
-  <section>
-    <h1>About Us</h1>
-    <p>We are a creative team building modern web experiences.</p>
-    <p>Our mission is to deliver simple, beautiful, and effective websites for everyone.</p>
-  </section>
+  <main>
+    <h2>Who We Are 🌍</h2>
+    <p>We are a creative team passionate about technology and design.</p>
+  </main>
 </body>
 </html>

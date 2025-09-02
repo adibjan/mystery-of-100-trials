@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>کارت پستال پدر</title>
+  <style>
+    body {
+      background-color: black;
+      font-family: Tahoma, sans-serif;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 2rem;
+      animation: moveHeart 5s linear infinite alternate;
+    }
+
+    @keyframes moveHeart {
+      0% { transform: translateX(0px) translateY(0px) scale(1); }
+      50% { transform: translateX(200px) translateY(-50px) scale(1.5); }
+      100% { transform: translateX(0px) translateY(0px) scale(1); }
+    }
+
+    .line {
+      font-size: 1.5rem;
+      margin: 5px;
+      display: inline-block;
+      animation: waveText 5s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveText {
+      0% { transform: translateX(0px) translateY(0px); color: red; }
+      25% { transform: translateX(20px) translateY(-10px); color: yellow; }
+      50% { transform: translateX(-20px) translateY(10px); color: cyan; }
+      75% { transform: translateX(10px) translateY(-5px); color: magenta; }
+      100% { transform: translateX(0px) translateY(0px); color: green; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- موسیقی پس‌زمینه -->
+  <audio autoplay loop>
+    <source src="background.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- قلب‌ها -->
+  <div class="heart" style="top:50px; left:50px;">❤️</div>
+  <div class="heart" style="top:100px; left:150px;">💖</div>
+  <div class="heart" style="top:200px; left:250px;">💜</div>
+  <div class="heart" style="top:300px; left:100px;">💛</div>
+
+  <!-- شعر پدر -->
+  <div style="margin-top:400px;">
+    <span class="line">پدرم، سایه‌بان خانه‌ام</span><br>
+    <span class="line">تو شدی کوه استواری به جانم</span><br>
+    <span class="line">هر نفس از دعای تو زنده‌ام</span><br>
+    <span class="line">افتخارم همیشه نام توست</span><br>
+    <span class="line">روشنی هر نگاه و ایمانم 🌹</span>
+  </div>
+
+</body>
+</html>

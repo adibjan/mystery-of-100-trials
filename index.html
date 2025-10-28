@@ -4,66 +4,178 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌍 World News | اخبار زنده</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-body { font-family:'Vazirmatn',sans-serif; margin:0; padding:0; direction:rtl; background:#f0f2f5; transition: background 2s;}
-header { background:linear-gradient(90deg,#1a1a2e,#0f3460); color:#fff; padding:20px; text-align:center; font-size:32px; font-weight:bold; position:sticky; top:0; z-index:100; box-shadow:0 4px 15px rgba(0,0,0,0.3);}
-nav { background:#16213e; display:flex; justify-content:center; flex-wrap:wrap; gap:10px; padding:12px; position:sticky; top:80px; z-index:99; }
-nav button { background:#0f3460; color:#fff; border:none; padding:10px 20px; cursor:pointer; border-radius:8px; font-size:16px; transition:0.4s;}
-nav button.active { background:#e94560; transform:scale(1.05); box-shadow:0 6px 15px rgba(0,0,0,0.3);}
-#search { display:block; width:85%; max-width:440px; margin:15px auto; padding:12px; border-radius:8px; border:1px solid #ccc; transition:0.3s; font-size:16px;}
-#search:focus { border-color:#0f3460; box-shadow:0 0 10px #0f3460; outline:none;}
+/* پس‌زمینه گرادینت متحرک */
+@keyframes gradientBG {
+  0% {background-position:0% 50%;}
+  50% {background-position:100% 50%;}
+  100% {background-position:0% 50%;}
+}
+body {
+  font-family:'Vazirmatn',sans-serif;
+  margin:0;
+  padding:0;
+  direction:rtl;
+  background: linear-gradient(270deg,#f1f1f1,#dfe9f3,#e0c3fc,#f1f1f1);
+  background-size:800% 800%;
+  animation: gradientBG 30s ease infinite;
+  transition: background 2s;
+}
+
+/* هدر با افکت */
+header {
+  background:linear-gradient(90deg,#1a1a2e,#0f3460);
+  color:#fff;
+  padding:20px;
+  text-align:center;
+  font-size:32px;
+  font-weight:bold;
+  position:sticky;
+  top:0;
+  z-index:100;
+  box-shadow:0 4px 20px rgba(0,0,0,0.35);
+  transition: background 1s;
+}
+
+/* دکمه تغییر زبان */
+.language-switch {
+  position:absolute;
+  top:20px;
+  left:20px;
+  background:#e94560;
+  color:#fff;
+  border:none;
+  padding:10px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  z-index:200;
+  transition:background 0.5s;
+}
+.language-switch:hover { background:#ff6584; }
+
+/* جستجو */
+#search {
+  display:block;
+  width:85%;
+  max-width:440px;
+  margin:15px auto;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+  transition:box-shadow 0.3s, border-color 0.3s;
+}
+#search:focus { border-color:#0f3460; box-shadow:0 0 12px #0f3460; outline:none; }
+
+/* کانتینر اخبار */
 .news-container { max-width:1024px; margin:auto; padding:20px; }
-.news-item { background:#fff; margin-bottom:22px; padding:18px; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,0.15); transition:all 0.5s; overflow:hidden; position:relative; }
-.news-item:hover { transform:translateY(-6px) scale(1.02); box-shadow:0 14px 28px rgba(0,0,0,0.25);}
-.news-item img { width:100%; max-height:320px; object-fit:cover; border-radius:12px; margin-bottom:14px; transition:transform 0.5s, filter 0.5s;}
-.news-item img:hover { transform:scale(1.06); filter:brightness(1.12);}
-.news-item h3 { margin:12px 0; font-size:22px; color:#1a1a2e;}
-.news-item p { font-size:16px; color:#333; line-height:1.6;}
-.news-item a { display:inline-block; margin-top:12px; color:#0f3460; font-weight:bold; text-decoration:none; transition:0.3s;}
+
+/* کارت‌های خبر با انیمیشن */
+.news-item {
+  background:#fff;
+  margin-bottom:22px;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.15);
+  transition:all 0.5s;
+  overflow:hidden;
+  opacity:0;
+  transform:translateY(40px);
+  animation:fadeUp 0.8s forwards;
+}
+@keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+.news-item:hover { transform:translateY(-6px) scale(1.03); box-shadow:0 18px 30px rgba(0,0,0,0.25); }
+
+.news-item img {
+  width:100%;
+  max-height:320px;
+  object-fit:cover;
+  border-radius:12px;
+  margin-bottom:14px;
+  transition: transform 0.7s;
+}
+.news-item img:hover { transform:scale(1.05) rotate(0.5deg); }
+
+.news-item h3 {
+  margin:12px 0;
+  font-size:22px;
+  color:#1a1a2e;
+  transition: color 0.3s;
+}
+.news-item h3:hover { color:#e94560; }
+
+.news-item p { font-size:16px; color:#333; line-height:1.6; }
+.news-item a {
+  display:inline-block;
+  margin-top:12px;
+  color:#0f3460;
+  font-weight:bold;
+  text-decoration:none;
+  transition:color 0.3s;
+}
 .news-item a:hover { color:#e94560; }
+
+/* دکمه‌های اشتراک گذاری */
 .share-buttons { margin-top:12px; }
-.share-buttons a { margin-right:8px; text-decoration:none; color:#fff; background:#0f3460; padding:6px 10px; border-radius:6px; font-size:14px; transition:0.3s; }
+.share-buttons a {
+  margin-right:8px;
+  text-decoration:none;
+  color:#fff;
+  background:#0f3460;
+  padding:6px 10px;
+  border-radius:6px;
+  font-size:14px;
+  transition: background 0.3s;
+}
 .share-buttons a:hover { background:#e94560; }
-.slider { position:relative; overflow:hidden; border-radius:14px; margin-bottom:28px; box-shadow:0 6px 25px rgba(0,0,0,0.2);}
-.slide { min-width:100%; box-sizing:border-box; position:absolute; opacity:0; transform:translateX(100%); transition:opacity 1s ease, transform 1s ease;}
-.slide.active { opacity:1; transform:translateX(0); z-index:2;}
-.slide img { width:100%; max-height:400px; object-fit:cover; border-radius:14px; filter:brightness(0.78); transition:filter 0.5s;}
-.slide h2 { position:absolute; bottom:25px; right:25px; background:rgba(0,0,0,0.65); color:#fff; padding:14px; border-radius:10px; font-size:26px; animation:slideText 2.5s ease-in-out infinite alternate;}
-@keyframes slideText { 0%{transform:translateY(0);} 50%{transform:translateY(-6px);} 100%{transform:translateY(0);} }
-.language-switch { position:absolute; top:20px; left:20px; background:#e94560; color:#fff; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:bold; z-index:200;}
-.footer { background:#1a1a2e; color:#fff; padding:25px; text-align:center; margin-top:40px;}
-.footer a { color:#e94560; margin:0 8px; text-decoration:none; font-weight:bold;}
-.footer a:hover { text-decoration:underline;}
-.categories { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-bottom:20px; }
-.categories button { background:#0f3460; color:#fff; border:none; padding:10px 18px; border-radius:8px; cursor:pointer; transition:0.3s;}
-.categories button:hover { background:#e94560; }
-@media(max-width:768px){ .news-item h3{ font-size:18px; } .news-item p{ font-size:14px; } .slide h2{ font-size:18px; } nav{flex-direction:column;} }
+
+/* اسلایدر */
+.slider { position:relative; overflow:hidden; border-radius:14px; margin-bottom:28px; height:400px; }
+.slide { min-width:100%; box-sizing:border-box; position:absolute; opacity:0; transform:translateX(100%); transition:opacity 1s, transform 1s; }
+.slide.active { opacity:1; transform:translateX(0); }
+.slide img { width:100%; height:100%; object-fit:cover; border-radius:14px; filter:brightness(0.75); transition: transform 1s; }
+.slide img:hover { transform:scale(1.05); }
+.slide h2 {
+  position:absolute; bottom:25px;
+  right:25px;
+  background:rgba(0,0,0,0.65);
+  color:#fff;
+  padding:14px;
+  border-radius:10px;
+  font-size:26px;
+  transition: background 0.3s;
+}
+
+/* فوتر */
+.footer {
+  background:#1a1a2e;
+  color:#fff;
+  padding:25px;
+  text-align:center;
+  margin-top:40px;
+}
+.footer a { color:#e94560; margin:0 8px; text-decoration:none; font-weight:bold; }
+.footer a:hover { text-decoration:underline; }
+
+@media(max-width:768px){
+  .news-item h3{ font-size:18px; }
+  .news-item p{ font-size:14px; }
+  .slide h2{ font-size:18px; }
+}
 </style>
 </head>
 <body>
 <button class="language-switch" onclick="switchLang()">EN/FA</button>
 <header id="header">🌍 World News | اخبار زنده</header>
-<nav>
-  <button onclick="loadNews('bbc', this)">BBC</button>
-  <button onclick="loadNews('cnn', this)">CNN</button>
-  <button onclick="loadNews('aljazeera', this)">Al Jazeera</button>
-  <button onclick="loadNews('afghan', this)">افغانستان</button>
-</nav>
-<div class="categories">
-  <button onclick="filterCategory('World')">World</button>
-  <button onclick="filterCategory('Politics')">Politics</button>
-  <button onclick="filterCategory('Tech')">Tech</button>
-  <button onclick="filterCategory('Sports')">Sports</button>
-  <button onclick="filterCategory('Afghanistan')">Afghanistan</button>
-</div>
+
 <input type="text" id="search" placeholder="جستجوی اخبار..." oninput="filterNews()">
 <div class="news-container">
   <div class="slider" id="slider"></div>
   <div id="news"><p>در حال بارگذاری خبرها...</p></div>
 </div>
+
 <div class="footer">
   <p>© 2025 World News | All rights reserved</p>
   <p>Follow us: 
@@ -74,143 +186,111 @@ nav button.active { background:#e94560; transform:scale(1.05); box-shadow:0 6px 
 </div>
 
 <script>
-let currentSource='bbc', newsItems=[], displayedCount=0, loading=false, slideIndex=0, slideInterval;
-let lang='fa', selectedCategory='';
-const colors=['#f0f2f5','#fbe4c3','#c3fbe4','#e4c3fb','#c3d7fb','#fbc3c3'];
-let colorIndex=0;
-setInterval(()=>{
-  document.body.style.background=colors[colorIndex];
-  document.querySelector('header').style.background=`linear-gradient(90deg, ${colors[colorIndex]}, #0f3460)`;
-  document.querySelectorAll('.news-item').forEach(item=>{
-    item.style.background=colors[(colorIndex+1)%colors.length];
-  });
-  colorIndex=(colorIndex+1)%colors.length;
-},5000);
+let newsItems=[], slideIndex=0, slideInterval;
+let lang='fa';
 
-function switchLang(){
-  lang = (lang==='fa') ? 'en' : 'fa';
-  document.getElementById('header').innerText = (lang==='fa') ? '🌍 World News | اخبار زنده' : '🌍 World News | Live News';
-  document.getElementById('search').placeholder = (lang==='fa') ? 'جستجوی اخبار...' : 'Search news...';
-  loadNews(currentSource);
-}
-
-async function loadNews(source, btn){
-  currentSource=source; displayedCount=0; newsItems=[]; clearInterval(slideInterval);
-  document.getElementById("news").innerHTML=(lang==='fa')?"<p>در حال بارگذاری خبرها...</p>":"<p>Loading news...</p>";
-  document.getElementById("slider").innerHTML="";
-  if(btn){ document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); }
-
-  const urls={
+async function loadAllNews(){
+  newsItems=[];
+  document.getElementById("news").innerHTML = "در حال بارگذاری خبرها...";
+  const sources = {
     bbc:"http://feeds.bbci.co.uk/persian/rss.xml",
     cnn:"http://rss.cnn.com/rss/edition.rss",
     aljazeera:"https://www.aljazeera.com/xml/rss/all.xml",
     afghan:"https://www.pajhwok.com/en/rss"
   };
-  const url=urls[source]||urls.bbc;
-  const proxy="https://api.allorigins.win/get?url=" + encodeURIComponent(url);
 
-  try {
-    const res = await fetch(proxy);
-    const data = await res.json();
-    const parser = new DOMParser();
-    const xml = parser.parseFromString(data.contents,"text/xml");
-    const items = xml.querySelectorAll("item");
-    newsItems = [];
-    items.forEach((item, index)=>{
-      if(index>=20) return;
-      const title = item.querySelector("title")?.textContent || "";
-      const link = item.querySelector("link")?.textContent || "#";
-      const desc = item.querySelector("description")?.textContent || "";
-      const media = item.querySelector("media\\:content, enclosure");
-      const image = media?.getAttribute("url") || "";
-      newsItems.push({title, link, desc, image});
-    });
-    displayedCount = newsItems.length;
-    renderNews();
-    setupSlider();
-  } catch(err){
-    document.getElementById("news").innerHTML = (lang==='fa') ? "<p>خطا در دریافت خبرها.</p>" : "<p>Error loading news.</p>";
-    console.error(err);
+  for(const key in sources){
+    try{
+      const url = sources[key];
+      const proxy="https://api.allorigins.win/get?url=" + encodeURIComponent(url);
+      const res = await fetch(proxy);
+      const data = await res.json();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents,"text/xml");
+      const items = xml.querySelectorAll("item");
+      items.forEach((item,index)=>{
+        if(index>=5) return;
+        const title = item.querySelector("title")?.textContent || "";
+        const link = item.querySelector("link")?.textContent || "#";
+        const desc = item.querySelector("description")?.textContent || "";
+        const media = item.querySelector("media\\:content, enclosure");
+        const image = media?.getAttribute("url") || "";
+        newsItems.push({title,link,desc,image});
+      });
+    }catch(err){ console.log("خطا در دریافت خبر از "+key, err); }
   }
+  renderNews();
+  setupSlider();
 }
 
 function renderNews(){
-  const newsDiv = document.getElementById("news");
+  const newsDiv=document.getElementById("news");
   newsDiv.innerHTML="";
-  let filtered = newsItems;
-  if(selectedCategory) filtered = newsItems.filter(n=>n.title.includes(selectedCategory) || n.desc.includes(selectedCategory));
-  filtered.forEach(item=>{
-    const div = document.createElement("div");
-    div.className="news-item";
-    div.innerHTML = `
-      ${item.image ? `<img src="${item.image}" alt="news image"/>` : ""}
+  newsItems.forEach(item=>{
+    const newsItem=document.createElement("div");
+    newsItem.className="news-item";
+    newsItem.style.animationDelay = (newsItems.indexOf(item)*0.1)+"s";
+    newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
-      <a href="${item.link}" target="_blank">${(lang==='fa')?"مشاهده کامل خبر":"Read full news"}</a>
+      <a href="${item.link}" target="_blank">${lang==='fa'?"مشاهده کامل خبر":"Read full news"}</a>
       <div class="share-buttons">
         <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(item.link)}" target="_blank">Facebook</a>
-        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(item.link)}&text=${encodeURIComponent(item.title)}" target="_blank">Twitter</a>
+        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(item.link)}" target="_blank">Twitter</a>
         <a href="https://www.instagram.com/?url=${encodeURIComponent(item.link)}" target="_blank">Instagram</a>
-      </div>
-    `;
-    newsDiv.appendChild(div);
+      </div>`;
+    newsDiv.appendChild(newsItem);
+  });
+}
+
+function filterNews(){
+  const query=document.getElementById("search").value.toLowerCase();
+  const newsDiv=document.getElementById("news");
+  newsDiv.innerHTML="";
+  newsItems.filter(item=> item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query))
+           .forEach(item=>{
+    const newsItem=document.createElement("div");
+    newsItem.className="news-item";
+    newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <a href="${item.link}" target="_blank">${lang==='fa'?"مشاهده کامل خبر":"Read full news"}</a>
+      <div class="share-buttons">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(item.link)}" target="_blank">Facebook</a>
+        <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(item.link)}" target="_blank">Twitter</a>
+        <a href="https://www.instagram.com/?url=${encodeURIComponent(item.link)}" target="_blank">Instagram</a>
+      </div>`;
+    newsDiv.appendChild(newsItem);
   });
 }
 
 function setupSlider(){
-  const sliderDiv = document.getElementById("slider");
-  sliderDiv.innerHTML="";
-  const topNews = newsItems.slice(0,5);
-  topNews.forEach((item, i)=>{
-    const slide = document.createElement("div");
-    slide.className = "slide";
-    if(i===0) slide.classList.add("active");
-    slide.innerHTML = `<img src="${item.image}" alt="slide image"/><h2>${item.title}</h2>`;
-    sliderDiv.appendChild(slide);
+  const slider=document.getElementById("slider");
+  slider.innerHTML="";
+  newsItems.slice(0,5).forEach((item,index)=>{
+    const slide=document.createElement("div");
+    slide.className="slide" + (index===0?" active":"");
+    slide.innerHTML=`<img src="${item.image||''}" alt="slide image"><h2>${item.title}</h2>`;
+    slider.appendChild(slide);
   });
-  slideIndex = 0;
+  slideIndex=0;
   clearInterval(slideInterval);
-  slideInterval = setInterval(nextSlide,5000);
+  slideInterval = setInterval(()=>{
+    const slides = document.querySelectorAll(".slide");
+    slides.forEach(s=>s.classList.remove("active"));
+    slideIndex = (slideIndex+1) % slides.length;
+    slides[slideIndex].classList.add("active");
+  },5000);
 }
 
-function nextSlide(){
-  const slides = document.querySelectorAll(".slide");
-  slides.forEach(s=>s.classList.remove("active"));
-  slideIndex = (slideIndex+1) % slides.length;
-  slides[slideIndex].classList.add("active");
-}
-
-function filterNews(){
-  const query = document.getElementById("search").value.toLowerCase();
-  const newsDiv = document.getElementById("news");
-  newsDiv.innerHTML="";
-  newsItems.forEach(item=>{
-    if(item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)){
-      const newsItem = document.createElement("div");
-      newsItem.className = "news-item";
-      newsItem.innerHTML = `
-        ${item.image ? `<img src="${item.image}" alt="news image"/>` : ""}
-        <h3>${item.title}</h3>
-        <p>${item.desc}</p>
-        <a href="${item.link}" target="_blank">${(lang==='fa')?"مشاهده کامل خبر":"Read full news"}</a>
-        <div class="share-buttons">
-          <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(item.link)}" target="_blank">Facebook</a>
-          <a href="https://twitter.com/intent/tweet?url=${encodeURIComponent(item.link)}&text=${encodeURIComponent(item.title)}" target="_blank">Twitter</a>
-          <a href="https://www.instagram.com/?url=${encodeURIComponent(item.link)}" target="_blank">Instagram</a>
-        </div>
-      `;
-      newsDiv.appendChild(newsItem);
-    }
-  });
-}
-
-function filterCategory(cat){
-  selectedCategory = cat;
+function switchLang(){
+  lang = (lang==='fa') ? 'en' : 'fa';
+  document.getElementById('header').innerText = (lang==='fa') ? '🌍 World News | اخبار زنده' : '🌍 World News | Live News';
+  document.getElementById('search').placeholder = (lang==='fa') ? 'جستجوی اخبار...' : 'Search news...';
   renderNews();
 }
 
-// لود اولیه اخبار
-loadNews('bbc');
+loadAllNews();
 </script>
 </body>
 </html>

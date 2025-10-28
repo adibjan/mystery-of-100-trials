@@ -20,7 +20,6 @@ body {
   background: linear-gradient(270deg,#f1f1f1,#dfe9f3,#e0c3fc,#f1f1f1);
   background-size:800% 800%;
   animation: gradientBG 30s ease infinite;
-  transition: background 2s;
 }
 
 /* هدر با افکت */
@@ -35,7 +34,6 @@ header {
   top:0;
   z-index:100;
   box-shadow:0 4px 20px rgba(0,0,0,0.35);
-  transition: background 1s;
 }
 
 /* دکمه تغییر زبان */
@@ -65,7 +63,6 @@ header {
   border-radius:8px;
   border:1px solid #ccc;
   font-size:16px;
-  transition:box-shadow 0.3s, border-color 0.3s;
 }
 #search:focus { border-color:#0f3460; box-shadow:0 0 12px #0f3460; outline:none; }
 
@@ -102,10 +99,7 @@ header {
   margin:12px 0;
   font-size:22px;
   color:#1a1a2e;
-  transition: color 0.3s;
 }
-.news-item h3:hover { color:#e94560; }
-
 .news-item p { font-size:16px; color:#333; line-height:1.6; }
 .news-item a {
   display:inline-block;
@@ -113,7 +107,6 @@ header {
   color:#0f3460;
   font-weight:bold;
   text-decoration:none;
-  transition:color 0.3s;
 }
 .news-item a:hover { color:#e94560; }
 
@@ -127,7 +120,6 @@ header {
   padding:6px 10px;
   border-radius:6px;
   font-size:14px;
-  transition: background 0.3s;
 }
 .share-buttons a:hover { background:#e94560; }
 
@@ -145,7 +137,6 @@ header {
   padding:14px;
   border-radius:10px;
   font-size:26px;
-  transition: background 0.3s;
 }
 
 /* فوتر */
@@ -188,6 +179,7 @@ header {
 <script>
 let newsItems=[], slideIndex=0, slideInterval;
 let lang='fa';
+const defaultImage='https://via.placeholder.com/800x450?text=No+Image';
 
 async function loadAllNews(){
   newsItems=[];
@@ -208,13 +200,12 @@ async function loadAllNews(){
       const parser = new DOMParser();
       const xml = parser.parseFromString(data.contents,"text/xml");
       const items = xml.querySelectorAll("item");
-      items.forEach((item,index)=>{
-        if(index>=5) return;
+      items.forEach(item=>{
         const title = item.querySelector("title")?.textContent || "";
         const link = item.querySelector("link")?.textContent || "#";
         const desc = item.querySelector("description")?.textContent || "";
         const media = item.querySelector("media\\:content, enclosure");
-        const image = media?.getAttribute("url") || "";
+        const image = media?.getAttribute("url") || defaultImage;
         newsItems.push({title,link,desc,image});
       });
     }catch(err){ console.log("خطا در دریافت خبر از "+key, err); }
@@ -229,8 +220,8 @@ function renderNews(){
   newsItems.forEach(item=>{
     const newsItem=document.createElement("div");
     newsItem.className="news-item";
-    newsItem.style.animationDelay = (newsItems.indexOf(item)*0.1)+"s";
-    newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+    newsItem.style.animationDelay = (newsItems.indexOf(item)*0.05)+"s";
+    newsItem.innerHTML=`<img src="${item.image}" alt="news image"/>
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
       <a href="${item.link}" target="_blank">${lang==='fa'?"مشاهده کامل خبر":"Read full news"}</a>
@@ -251,7 +242,7 @@ function filterNews(){
            .forEach(item=>{
     const newsItem=document.createElement("div");
     newsItem.className="news-item";
-    newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+    newsItem.innerHTML=`<img src="${item.image}" alt="news image"/>
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
       <a href="${item.link}" target="_blank">${lang==='fa'?"مشاهده کامل خبر":"Read full news"}</a>
@@ -267,10 +258,10 @@ function filterNews(){
 function setupSlider(){
   const slider=document.getElementById("slider");
   slider.innerHTML="";
-  newsItems.slice(0,5).forEach((item,index)=>{
+  newsItems.filter(item=>item.image!==defaultImage).slice(0,5).forEach((item,index)=>{
     const slide=document.createElement("div");
     slide.className="slide" + (index===0?" active":"");
-    slide.innerHTML=`<img src="${item.image||''}" alt="slide image"><h2>${item.title}</h2>`;
+    slide.innerHTML=`<img src="${item.image}" alt="slide image"><h2>${item.title}</h2>`;
     slider.appendChild(slide);
   });
   slideIndex=0;

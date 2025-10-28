@@ -1,177 +1,138 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منبع خبر حرفه‌ای با Dark Mode</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  /* ===== Base ===== */
-  * { margin:0; padding:0; box-sizing:border-box; transition: background 0.3s, color 0.3s; }
-  body { font-family: 'Vazirmatn', sans-serif; background:#f4f4f4; color:#333; line-height:1.6; }
-  a { text-decoration:none; color:inherit; }
-  header { background:#1a73e8; color:white; padding:25px 0; text-align:center; box-shadow:0 2px 5px rgba(0,0,0,0.2); position:sticky; top:0; z-index:100; display:flex; justify-content:center; align-items:center; gap:20px; }
-  header h1 { font-size:2em; }
-  #darkModeToggle { padding:6px 12px; border:none; border-radius:5px; cursor:pointer; background:#fff; color:#1a73e8; font-weight:bold; transition:0.3s; }
-  #darkModeToggle:hover { background:#e0e0e0; }
-
-  /* ===== Categories ===== */
-  #categoryButtons { text-align:center; margin:20px 0; }
-  #categoryButtons button { margin:5px; padding:10px 20px; border:none; border-radius:8px; background:#1a73e8; color:white; cursor:pointer; font-size:1em; transition:0.3s; }
-  #categoryButtons button:hover { background:#155ab6; }
-  #categoryButtons button.active { background:#0d3c8a; }
-
-  /* ===== News Cards ===== */
-  #newsContainer { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; padding:10px; }
-  .newsCard { background:white; border-radius:12px; box-shadow:0 4px 8px rgba(0,0,0,0.2); max-width:320px; flex:1 1 300px; display:flex; flex-direction:column; overflow:hidden; transition:transform 0.3s, background 0.3s, color 0.3s; }
-  .newsCard:hover { transform:translateY(-5px); }
-  .newsCard img { width:100%; height:180px; object-fit:cover; }
-  .newsContent { padding:15px; display:flex; flex-direction:column; flex:1; }
-  .newsContent h3 { font-size:1.2em; margin:10px 0 5px; color:#1a73e8; }
-  .newsContent p { flex:1; font-size:0.95em; color:#555; margin-bottom:8px; }
-  .newsContent small { color:#888; }
-
-  /* ===== Share Buttons ===== */
-  .shareButtons { display:flex; gap:10px; margin-top:10px; }
-  .shareButtons a { flex:1; text-align:center; padding:6px 0; border-radius:5px; font-size:0.85em; color:white; }
-  .whatsapp { background:#25D366; }
-  .facebook { background:#4267B2; }
-
-  /* ===== Loading & Footer ===== */
-  #loading { text-align:center; padding:15px; color:#555; }
-  footer { text-align:center; padding:20px 0; background:#1a73e8; color:white; margin-top:30px; font-size:0.9em; transition: background 0.3s, color 0.3s; }
-
-  /* ===== Dark Mode ===== */
-  body.dark { background:#121212; color:#ddd; }
-  body.dark .newsCard { background:#1e1e1e; color:#ddd; box-shadow:0 4px 8px rgba(255,255,255,0.1); }
-  body.dark .newsContent p { color:#ccc; }
-  body.dark .newsContent small { color:#aaa; }
-  body.dark footer { background:#1a73e8; color:white; }
-
-  @media(max-width:600px){ .newsCard { flex:1 1 100%; } #categoryButtons button { padding:8px 12px; font-size:0.9em; } }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منبع خبر حرفه‌ای من</title>
+  <style>
+    body {
+      font-family: 'Vazir', sans-serif;
+      direction: rtl;
+      margin: 0;
+      padding: 0;
+      background-color: #111;
+      color: white;
+      text-align: center;
+    }
+    header {
+      background-color: #007BFF;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .mode-toggle {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      background: white;
+      color: black;
+      border-radius: 10px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    .categories {
+      margin: 20px;
+    }
+    .categories button {
+      background: #007BFF;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      margin: 5px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .news-container {
+      max-width: 700px;
+      margin: auto;
+      padding: 10px;
+    }
+    .news-item {
+      background: #222;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      text-align: right;
+    }
+    .news-item img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    footer {
+      background: #007BFF;
+      padding: 15px;
+      margin-top: 30px;
+      color: white;
+    }
+  </style>
 </head>
 <body>
+  <header>
+    منبع خبر حرفه‌ای من
+    <div class="mode-toggle" onclick="toggleMode()">🌙 حالت تاریک</div>
+  </header>
 
-<header>
-  <h1>منبع خبر حرفه‌ای من</h1>
-  <button id="darkModeToggle">🌙 Dark Mode</button>
-</header>
+  <div class="categories">
+    <button onclick="getNews('general')">همه</button>
+    <button onclick="getNews('technology')">تکنولوژی</button>
+    <button onclick="getNews('sports')">ورزشی</button>
+    <button onclick="getNews('business')">اقتصاد</button>
+  </div>
 
-<div id="categoryButtons">
-  <button data-category="general" class="active">همه</button>
-  <button data-category="national">ملی</button>
-  <button data-category="technology">تکنولوژی</button>
-  <button data-category="sports">ورزشی</button>
-</div>
+  <div id="news" class="news-container">
+    <p>در حال بارگذاری خبرها...</p>
+  </div>
 
-<div id="newsContainer"></div>
-<div id="loading">در حال بارگذاری خبرها...</div>
+  <footer>
+    © 2025 منبع خبر حرفه‌ای من | تمام حقوق محفوظ است
+  </footer>
 
-<footer>
-  © 2025 منبع خبر حرفه‌ای | همه حقوق محفوظ است
-</footer>
+  <script>
+    const apiKey = "225e5abe43dd4c72be45bde8dfd505d1";
 
-<script>
-const apiKey = '225e5abe43dd4c72be45bde8dfd505d1'; // کلید API خودت
-const country = 'af';
-const container = document.getElementById('newsContainer');
-const buttons = document.querySelectorAll('#categoryButtons button');
-const loading = document.getElementById('loading');
-const darkModeToggle = document.getElementById('darkModeToggle');
+    async function getNews(category = 'general') {
+      document.getElementById('news').innerHTML = "<p>در حال بارگذاری...</p>";
+      try {
+        const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
+        const res = await fetch(url);
+        const data = await res.json();
 
-let currentCategory = 'general';
-let currentPage = 1;
-const pageSize = 5;
-let isLoading = false;
+        if (data.articles.length === 0) {
+          document.getElementById('news').innerHTML = "<p>خبر جدیدی موجود نیست.</p>";
+          return;
+        }
 
-// ===== Dark Mode Toggle =====
-darkModeToggle.addEventListener('click', ()=>{
-  document.body.classList.toggle('dark');
-  darkModeToggle.innerText = document.body.classList.contains('dark') ? '☀️ Light Mode' : '🌙 Dark Mode';
-});
+        const newsHTML = data.articles.map(article => `
+          <div class="news-item">
+            ${article.urlToImage ? `<img src="${article.urlToImage}" alt="news">` : ""}
+            <h3>${article.title}</h3>
+            <p>${article.description || ''}</p>
+            <a href="${article.url}" target="_blank">مشاهده کامل خبر</a>
+          </div>
+        `).join('');
 
-// ===== Set Active Button =====
-function setActiveButton(activeBtn){
-  buttons.forEach(btn=>btn.classList.remove('active'));
-  activeBtn.classList.add('active');
-}
-
-// ===== Share Links =====
-function createShareLinks(url, title){
-  return `
-    <div class="shareButtons">
-      <a class="whatsapp" href="https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}" target="_blank">واتساپ</a>
-      <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}" target="_blank">فیسبوک</a>
-    </div>
-  `;
-}
-
-// ===== Load News =====
-async function loadNews(category = currentCategory, page = currentPage){
-  if(isLoading) return;
-  isLoading = true;
-  loading.style.display = 'block';
-  let url = `https://newsapi.org/v2/top-headlines?country=${country}&apiKey=${apiKey}&page=${page}&pageSize=${pageSize}`;
-  if(category !== 'general') url += `&category=${category}`;
-
-  try{
-    const res = await fetch(url);
-    const data = await res.json();
-    if(page === 1) container.innerHTML = '';
-    if(!data.articles || data.articles.length===0){
-      if(page===1) container.innerHTML = '<p>خبر جدیدی موجود نیست.</p>';
-      loading.innerText = 'همه خبرها بارگذاری شد';
-      return;
+        document.getElementById('news').innerHTML = newsHTML;
+      } catch (error) {
+        document.getElementById('news').innerHTML = "<p>خطا در دریافت خبرها 😢</p>";
+      }
     }
 
-    data.articles.forEach(article=>{
-      const card = document.createElement('div');
-      card.className = 'newsCard';
-      card.innerHTML = `
-        ${article.urlToImage ? `<img loading="lazy" src="${article.urlToImage}" alt="${article.title}">` : ''}
-        <div class="newsContent">
-          <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-          <p>${article.description || ''}</p>
-          <small>منبع: ${article.source?.name || 'خبر خارجی'}</small>
-          ${createShareLinks(article.url, article.title)}
-        </div>
-      `;
-      container.appendChild(card);
-    });
-
-    isLoading = false;
-    loading.style.display = data.articles.length < pageSize ? 'block' : 'none';
-  }catch(err){
-    console.error(err);
-    loading.innerText = 'خطا در بارگذاری خبرها.';
-    isLoading = false;
-  }
-}
-
-// ===== Category Buttons =====
-buttons.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    currentCategory = btn.getAttribute('data-category');
-    currentPage = 1;
-    setActiveButton(btn);
-    loadNews(currentCategory, currentPage);
-  });
-});
-
-// ===== Infinite Scroll =====
-window.addEventListener('scroll', ()=>{
-  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100){
-    if(!isLoading){
-      currentPage++;
-      loadNews(currentCategory, currentPage);
+    function toggleMode() {
+      const body = document.body;
+      const button = document.querySelector('.mode-toggle');
+      if (body.style.backgroundColor === 'white') {
+        body.style.backgroundColor = '#111';
+        body.style.color = 'white';
+        button.textContent = '🌙 حالت تاریک';
+      } else {
+        body.style.backgroundColor = 'white';
+        body.style.color = 'black';
+        button.textContent = '☀️ حالت روشن';
+      }
     }
-  }
-});
 
-// ===== Initial Load =====
-loadNews();
-</script>
-
+    // بارگذاری خودکار خبرهای عمومی هنگام باز شدن سایت
+    getNews();
+  </script>
 </body>
 </html>

@@ -4,73 +4,118 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🌍 World News | اخبار زنده</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap');
-  body { font-family:'Vazirmatn',sans-serif; margin:0; padding:0; background:#f0f2f5; direction:rtl; }
-  header { background:linear-gradient(90deg,#1a1a2e,#0f3460); color:#fff; padding:20px; text-align:center; font-size:30px; font-weight:bold; position:sticky; top:0; z-index:100; }
-  nav { background:#16213e; text-align:center; padding:10px; position:sticky; top:70px; z-index:100; display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
-  nav button { background:#0f3460; color:#fff; border:none; padding:10px 18px; cursor:pointer; border-radius:6px; font-size:16px; transition:0.4s; }
-  nav button.active { background:#e94560; transform:scale(1.05); box-shadow:0 4px 12px rgba(0,0,0,0.3); }
-  #search { padding:12px; margin:12px auto; border-radius:6px; border:1px solid #ccc; width:80%; max-width:420px; display:block; transition:0.3s; }
-  #search:focus { border-color:#0f3460; box-shadow:0 0 8px #0f3460; outline:none; }
-  .news-container { max-width:1000px; margin:auto; padding:20px; }
-  .news-item { background:#fff; margin-bottom:20px; padding:18px; border-radius:12px; box-shadow:0 3px 15px rgba(0,0,0,0.12); transition:all 0.6s; overflow:hidden; position:relative; }
-  .news-item:hover { transform:translateY(-8px) scale(1.03); box-shadow:0 12px 25px rgba(0,0,0,0.25); }
-  .news-item img { width:100%; max-height:300px; object-fit:cover; border-radius:10px; margin-bottom:12px; transition:transform 0.5s, filter 0.5s; }
-  .news-item img:hover { transform:scale(1.08) rotate(1deg); filter:brightness(1.15); }
-  .news-item h3 { margin:12px 0; font-size:22px; color:#1a1a2e; transition:color 0.3s; }
-  .news-item:hover h3{ color:#e94560; }
-  .news-item p { font-size:16px; color:#333; }
-  .news-item a { display:inline-block; margin-top:10px; color:#0f3460; text-decoration:none; font-weight:bold; transition:0.3s; }
-  .news-item a:hover { color:#e94560; }
-  .slider { position:relative; overflow:hidden; border-radius:12px; margin-bottom:25px; box-shadow:0 6px 20px rgba(0,0,0,0.2); }
-  .slides { display:flex; transition:transform 1s ease-in-out; }
-  .slide { min-width:100%; box-sizing:border-box; position:relative; opacity:0; transform:translateX(100%); transition:opacity 1s ease, transform 1s ease; }
-  .slide.active { opacity:1; transform:translateX(0); }
-  .slide img { width:100%; max-height:400px; object-fit:cover; border-radius:12px; filter:brightness(0.85); transition:filter 0.5s; }
-  .slide h2 { position:absolute; bottom:25px; right:25px; background:rgba(0,0,0,0.65); color:#fff; padding:12px; border-radius:8px; font-size:24px; animation:slideText 2s ease-in-out infinite alternate; }
-  @keyframes slideText { 0%{transform:translateY(0);} 50%{transform:translateY(-5px);} 100%{transform:translateY(0);} }
-  @media(max-width:768px){ .news-item h3{ font-size:18px; } .news-item p{ font-size:14px; } .slide h2{ font-size:18px; } nav { flex-direction:column; } }
+body {
+  font-family:'Vazirmatn',sans-serif;
+  margin:0; padding:0;
+  direction:rtl;
+  transition: background 2s;
+  background:#f0f2f5;
+}
+header {
+  background:linear-gradient(90deg,#1a1a2e,#0f3460);
+  color:#fff; padding:20px;
+  text-align:center; font-size:32px; font-weight:bold;
+  position:sticky; top:0; z-index:100; transition: background 2s;
+  box-shadow:0 4px 15px rgba(0,0,0,0.3);
+}
+nav {
+  background:#16213e; display:flex; justify-content:center; flex-wrap:wrap;
+  gap:10px; padding:12px; position:sticky; top:80px; z-index:99;
+}
+nav button {
+  background:#0f3460; color:#fff; border:none; padding:10px 20px;
+  cursor:pointer; border-radius:8px; font-size:16px; transition:0.4s;
+}
+nav button.active {
+  background:#e94560; transform:scale(1.05);
+  box-shadow:0 6px 15px rgba(0,0,0,0.3);
+}
+#search {
+  display:block; width:85%; max-width:440px; margin:15px auto; padding:12px;
+  border-radius:8px; border:1px solid #ccc; transition:0.3s; font-size:16px;
+}
+#search:focus { border-color:#0f3460; box-shadow:0 0 10px #0f3460; outline:none; }
+.news-container { max-width:1024px; margin:auto; padding:20px; }
+.news-item {
+  background:#fff; margin-bottom:22px; padding:18px; border-radius:14px;
+  box-shadow:0 4px 18px rgba(0,0,0,0.15); transition:all 0.5s; overflow:hidden;
+  position:relative;
+}
+.news-item:hover { transform:translateY(-6px) scale(1.02); box-shadow:0 14px 28px rgba(0,0,0,0.25); }
+.news-item img { width:100%; max-height:320px; object-fit:cover; border-radius:12px;
+  margin-bottom:14px; transition:transform 0.5s, filter 0.5s; }
+.news-item img:hover { transform:scale(1.06); filter:brightness(1.12); }
+.news-item h3 { margin:12px 0; font-size:22px; color:#1a1a2e; transition:color 0.3s; }
+.news-item:hover h3 { color:#e94560; }
+.news-item p { font-size:16px; color:#333; line-height:1.6; }
+.news-item a { display:inline-block; margin-top:12px; color:#0f3460; font-weight:bold; text-decoration:none; transition:0.3s; }
+.news-item a:hover { color:#e94560; }
+.slider {
+  position:relative; overflow:hidden; border-radius:14px; margin-bottom:28px;
+  box-shadow:0 6px 25px rgba(0,0,0,0.2);
+}
+.slide {
+  min-width:100%; box-sizing:border-box; position:absolute; opacity:0;
+  transform:translateX(100%); transition:opacity 1s ease, transform 1s ease;
+}
+.slide.active { opacity:1; transform:translateX(0); z-index:2; }
+.slide img { width:100%; max-height:400px; object-fit:cover; border-radius:14px;
+  filter:brightness(0.78); transition:filter 0.5s; }
+.slide h2 {
+  position:absolute; bottom:25px; right:25px; background:rgba(0,0,0,0.65);
+  color:#fff; padding:14px; border-radius:10px; font-size:26px;
+  animation:slideText 2.5s ease-in-out infinite alternate;
+}
+@keyframes slideText { 0%{transform:translateY(0);} 50%{transform:translateY(-6px);} 100%{transform:translateY(0);} }
+@media(max-width:768px){ .news-item h3{ font-size:18px; } .news-item p{ font-size:14px; } .slide h2{ font-size:18px; } nav{flex-direction:column;} }
 </style>
 </head>
 <body>
-
 <header>🌍 World News | اخبار زنده</header>
 <nav>
   <button onclick="loadNews('bbc', this)" class="active">BBC</button>
   <button onclick="loadNews('cnn', this)">CNN</button>
   <button onclick="loadNews('aljazeera', this)">Al Jazeera</button>
+  <button onclick="loadNews('afghan', this)">افغانستان</button>
 </nav>
 <input type="text" id="search" placeholder="جستجوی اخبار..." oninput="filterNews()">
-
 <div class="news-container">
   <div class="slider" id="slider"></div>
   <div id="news"><p>در حال بارگذاری خبرها...</p></div>
 </div>
 
 <script>
-let currentSource='bbc';
-let newsItems=[];
-let displayedCount=0;
-let loading=false;
-let slideIndex=0;
-let slideInterval;
+let currentSource='bbc', newsItems=[], displayedCount=0, loading=false, slideIndex=0, slideInterval;
 
+// رنگ‌های پویا برای پس‌زمینه و کارت‌ها
+const colors=['#f0f2f5','#fbe4c3','#c3fbe4','#e4c3fb','#c3d7fb','#fbc3c3'];
+let colorIndex=0;
+setInterval(()=>{
+  document.body.style.background=colors[colorIndex];
+  document.querySelector('header').style.background=`linear-gradient(90deg, ${colors[colorIndex]}, #0f3460)`;
+  document.querySelectorAll('.news-item').forEach(item=>{
+    item.style.background=colors[(colorIndex+1)%colors.length];
+  });
+  colorIndex=(colorIndex+1)%colors.length;
+},5000);
+
+// بارگذاری اخبار از RSS با پروکسی برای جلوگیری از CORS
 async function loadNews(source, btn){
-  currentSource=source;
-  displayedCount=0;
-  newsItems=[];
-  clearInterval(slideInterval);
+  currentSource=source; displayedCount=0; newsItems=[]; clearInterval(slideInterval);
   document.getElementById("news").innerHTML="<p>در حال بارگذاری خبرها...</p>";
   document.getElementById("slider").innerHTML="";
-
   document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
   if(btn) btn.classList.add('active');
 
   const urls={
     bbc:"http://feeds.bbci.co.uk/persian/rss.xml",
     cnn:"http://rss.cnn.com/rss/edition.rss",
-    aljazeera:"https://www.aljazeera.com/xml/rss/all.xml"
+    aljazeera:"https://www.aljazeera.com/xml/rss/all.xml",
+    afghan:"https://www.pajhwok.com/en/rss"
   };
   const url=urls[source]||urls.bbc;
   const proxy="https://api.allorigins.win/get?url="+encodeURIComponent(url);
@@ -80,9 +125,7 @@ async function loadNews(source, btn){
     const data=await res.json();
     const parser=new DOMParser();
     const xml=parser.parseFromString(data.contents,"text/xml");
-    const items=xml.querySelectorAll("item");
-
-    items.forEach(item=>{
+    xml.querySelectorAll("item").forEach(item=>{
       const title=item.querySelector("title")?.textContent||"";
       const link=item.querySelector("link")?.textContent||"#";
       const desc=item.querySelector("description")?.textContent||"";
@@ -90,66 +133,85 @@ async function loadNews(source, btn){
       const image=media?.getAttribute("url")||"";
       newsItems.push({title,link,desc,image});
     });
-
-    setupSlider();
-    loadMoreNews();
-  }catch(err){
-    document.getElementById("news").innerHTML="<p>خطا در دریافت خبرها.</p>";
+    setupSlider(); loadMoreNews();
+  }catch(err){ 
+    document.getElementById("news").innerHTML="<p>خطا در دریافت خبرها.</p>"; 
+    console.error(err);
   }
 }
 
+// نمایش اخبار به تعداد مشخص
 function displayNews(start,count){
   const newsDiv=document.getElementById("news");
-  for(let i=start;i<start+count&&i<newsItems.length;i++){
+  for(let i=start;i<start+count && i<newsItems.length;i++){
     const item=newsItems[i];
     const newsItem=document.createElement("div");
     newsItem.className="news-item";
-    newsItem.innerHTML=`
-      ${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+    newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
       <h3>${item.title}</h3>
       <p>${item.desc}</p>
-      <a href="${item.link}" target="_blank">مشاهده کامل خبر</a>
-    `;
+      <a href="${item.link}" target="_blank">مشاهده کامل خبر</a>`;
     newsDiv.appendChild(newsItem);
   }
   displayedCount+=count;
 }
 
+// بارگذاری بیشتر هنگام اسکرول
 function loadMoreNews(){
-  if(loading) return;
-  loading=true;
-  displayNews(displayedCount,5);
+  if(loading) return; 
+  loading=true; 
+  displayNews(displayedCount,5); 
   loading=false;
 }
 
 window.addEventListener('scroll', ()=>{
-  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100){
-    loadMoreNews();
-  }
+  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) loadMoreNews();
 });
 
+// راه‌اندازی اسلایدر چند تصویری
 function setupSlider(){
-  const sliderDiv=document.getElementById("slider");
+  const sliderDiv=document.getElementById("slider"); 
   sliderDiv.innerHTML="";
-  newsItems.slice(0,3).forEach((item,i)=>{
+  newsItems.slice(0,5).forEach((item,i)=>{
     const slide=document.createElement("div");
-    slide.className="slide"+(i===0?" active":"");
-    slide.innerHTML=`<img src="${item.image}" alt=""><h2>${item.title}</h2>`;
+    slide.className="slide";
+    if(i===0) slide.classList.add("active");
+    slide.innerHTML=`${item.image?`<img src="${item.image}" alt="slide image"/>`:""}
+      <h2>${item.title}</h2>`;
     sliderDiv.appendChild(slide);
   });
-  const slides=document.querySelectorAll(".slide");
   slideIndex=0;
-  slideInterval=setInterval(()=>{
-    slides.forEach(s=>s.classList.remove("active"));
-    slideIndex=(slideIndex+1)%slides.length;
-    slides[slideIndex].classList.add("active");
-  },4000);
+  clearInterval(slideInterval);
+  slideInterval=setInterval(()=>{ nextSlide(); },4000);
 }
 
+function nextSlide(){
+  const slides=document.querySelectorAll(".slide");
+  slides.forEach(s=>s.classList.remove("active"));
+  slideIndex=(slideIndex+1)%slides.length;
+  slides[slideIndex].classList.add("active");
+}
+
+// جستجوی زنده اخبار
 function filterNews(){
-  const query=document.getElementById('search').value.toLowerCase();
-  document.getElementById("news").innerHTML="";
-  displayedCount=0;
-  const filtered=newsItems.filter(item=>item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query));
-  filtered.forEach(item=>{
-    const newsDiv=document.get
+  const query=document.getElementById("search").value.toLowerCase();
+  const newsDiv=document.getElementById("news");
+  newsDiv.innerHTML="";
+  newsItems.forEach(item=>{
+    if(item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query)){
+      const newsItem=document.createElement("div");
+      newsItem.className="news-item";
+      newsItem.innerHTML=`${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+        <h3>${item.title}</h3>
+        <p>${item.desc}</p>
+        <a href="${item.link}" target="_blank">مشاهده کامل خبر</a>`;
+      newsDiv.appendChild(newsItem);
+    }
+  });
+}
+
+// لود اولیه اخبار
+loadNews('bbc');
+</script>
+</body>
+</html>

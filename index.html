@@ -1,138 +1,171 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منبع خبر حرفه‌ای من</title>
-  <style>
-    body {
-      font-family: 'Vazir', sans-serif;
-      direction: rtl;
-      margin: 0;
-      padding: 0;
-      background-color: #111;
-      color: white;
-      text-align: center;
-    }
-    header {
-      background-color: #007BFF;
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .mode-toggle {
-      position: absolute;
-      left: 10px;
-      top: 10px;
-      background: white;
-      color: black;
-      border-radius: 10px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-    .categories {
-      margin: 20px;
-    }
-    .categories button {
-      background: #007BFF;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      margin: 5px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-    .news-container {
-      max-width: 700px;
-      margin: auto;
-      padding: 10px;
-    }
-    .news-item {
-      background: #222;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 10px;
-      text-align: right;
-    }
-    .news-item img {
-      width: 100%;
-      border-radius: 10px;
-    }
-    footer {
-      background: #007BFF;
-      padding: 15px;
-      margin-top: 30px;
-      color: white;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌍 World News | اخبار زنده</title>
+<style>
+  body { font-family:"Tahoma",sans-serif; margin:0; padding:0; background:#f1f1f1; direction:rtl; }
+  header { background:#1a1a2e; color:#fff; padding:20px; text-align:center; font-size:28px; font-weight:bold; position:sticky; top:0; z-index:100; }
+  nav { background:#16213e; text-align:center; padding:10px; position:sticky; top:60px; z-index:100; display:flex; justify-content:center; flex-wrap:wrap; gap:10px; }
+  nav button { background:#0f3460; color:#fff; border:none; padding:10px 15px; cursor:pointer; border-radius:5px; font-size:16px; transition:0.3s; }
+  nav button.active { background:#e94560; transform:scale(1.05); }
+  #search { padding:10px; margin:10px auto; border-radius:5px; border:1px solid #ccc; width:80%; max-width:400px; display:block; transition:0.3s; }
+  #search:focus { border-color:#0f3460; box-shadow:0 0 5px #0f3460; outline:none; }
+  .news-container { max-width:1000px; margin:auto; padding:20px; }
+  .news-item { background:#fff; margin-bottom:20px; padding:15px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1); transition:all 0.5s; overflow:hidden; }
+  .news-item:hover { transform:translateY(-5px) scale(1.02); box-shadow:0 8px 20px rgba(0,0,0,0.25); }
+  .news-item img { width:100%; max-height:300px; object-fit:cover; border-radius:8px; margin-bottom:10px; transition:transform 0.5s, filter 0.5s; }
+  .news-item img:hover { transform:scale(1.05) rotate(1deg); filter:brightness(1.1); }
+  .news-item h3 { margin:10px 0; font-size:20px; color:#1a1a2e; }
+  .news-item p { font-size:16px; color:#333; }
+  .news-item a { display:inline-block; margin-top:10px; color:#0f3460; text-decoration:none; font-weight:bold; transition:0.3s; }
+  .news-item a:hover { color:#e94560; }
+  .slider { position:relative; overflow:hidden; border-radius:10px; margin-bottom:20px; }
+  .slides { display:flex; transition:transform 1s ease-in-out; }
+  .slide { min-width:100%; box-sizing:border-box; position:relative; opacity:0; transform:translateX(100%); transition:opacity 1s ease, transform 1s ease; }
+  .slide.active { opacity:1; transform:translateX(0); }
+  .slide img { width:100%; max-height:400px; object-fit:cover; border-radius:10px; }
+  .slide h2 { position:absolute; bottom:20px; right:20px; background:rgba(0,0,0,0.6); color:#fff; padding:10px; border-radius:5px; font-size:22px; }
+  @media(max-width:768px){ .news-item h3{ font-size:18px; } .news-item p{ font-size:14px; } .slide h2{ font-size:18px; } nav { flex-direction:column; } }
+</style>
 </head>
 <body>
-  <header>
-    منبع خبر حرفه‌ای من
-    <div class="mode-toggle" onclick="toggleMode()">🌙 حالت تاریک</div>
-  </header>
 
-  <div class="categories">
-    <button onclick="getNews('general')">همه</button>
-    <button onclick="getNews('technology')">تکنولوژی</button>
-    <button onclick="getNews('sports')">ورزشی</button>
-    <button onclick="getNews('business')">اقتصاد</button>
-  </div>
+<header>🌍 World News | اخبار زنده</header>
+<nav>
+  <button onclick="loadNews('bbc', this)" class="active">BBC</button>
+  <button onclick="loadNews('cnn', this)">CNN</button>
+  <button onclick="loadNews('aljazeera', this)">Al Jazeera</button>
+</nav>
+<input type="text" id="search" placeholder="جستجوی اخبار..." oninput="filterNews()">
 
-  <div id="news" class="news-container">
-    <p>در حال بارگذاری خبرها...</p>
-  </div>
+<div class="news-container">
+  <div class="slider" id="slider"></div>
+  <div id="news"><p>در حال بارگذاری خبرها...</p></div>
+</div>
 
-  <footer>
-    © 2025 منبع خبر حرفه‌ای من | تمام حقوق محفوظ است
-  </footer>
+<script>
+let currentSource='bbc';
+let newsItems=[];
+let displayedCount=0;
+let loading=false;
+let slideIndex=0;
+let slideInterval;
 
-  <script>
-    const apiKey = "225e5abe43dd4c72be45bde8dfd505d1";
+async function loadNews(source, btn){
+  currentSource=source;
+  displayedCount=0;
+  newsItems=[];
+  clearInterval(slideInterval);
+  document.getElementById("news").innerHTML="<p>در حال بارگذاری خبرها...</p>";
+  document.getElementById("slider").innerHTML="";
 
-    async function getNews(category = 'general') {
-      document.getElementById('news').innerHTML = "<p>در حال بارگذاری...</p>";
-      try {
-        const url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${apiKey}`;
-        const res = await fetch(url);
-        const data = await res.json();
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
 
-        if (data.articles.length === 0) {
-          document.getElementById('news').innerHTML = "<p>خبر جدیدی موجود نیست.</p>";
-          return;
-        }
+  const urls={
+    bbc:"http://feeds.bbci.co.uk/persian/rss.xml",
+    cnn:"http://rss.cnn.com/rss/edition.rss",
+    aljazeera:"https://www.aljazeera.com/xml/rss/all.xml"
+  };
+  const url=urls[source]||urls.bbc;
+  const proxy="https://api.allorigins.win/get?url="+encodeURIComponent(url);
 
-        const newsHTML = data.articles.map(article => `
-          <div class="news-item">
-            ${article.urlToImage ? `<img src="${article.urlToImage}" alt="news">` : ""}
-            <h3>${article.title}</h3>
-            <p>${article.description || ''}</p>
-            <a href="${article.url}" target="_blank">مشاهده کامل خبر</a>
-          </div>
-        `).join('');
+  try{
+    const res=await fetch(proxy);
+    const data=await res.json();
+    const parser=new DOMParser();
+    const xml=parser.parseFromString(data.contents,"text/xml");
+    const items=xml.querySelectorAll("item");
 
-        document.getElementById('news').innerHTML = newsHTML;
-      } catch (error) {
-        document.getElementById('news').innerHTML = "<p>خطا در دریافت خبرها 😢</p>";
-      }
-    }
+    items.forEach(item=>{
+      const title=item.querySelector("title")?.textContent||"";
+      const link=item.querySelector("link")?.textContent||"#";
+      const desc=item.querySelector("description")?.textContent||"";
+      const media=item.querySelector("media\\:content, enclosure");
+      const image=media?.getAttribute("url")||"";
+      newsItems.push({title,link,desc,image});
+    });
 
-    function toggleMode() {
-      const body = document.body;
-      const button = document.querySelector('.mode-toggle');
-      if (body.style.backgroundColor === 'white') {
-        body.style.backgroundColor = '#111';
-        body.style.color = 'white';
-        button.textContent = '🌙 حالت تاریک';
-      } else {
-        body.style.backgroundColor = 'white';
-        body.style.color = 'black';
-        button.textContent = '☀️ حالت روشن';
-      }
-    }
+    setupSlider();
+    loadMoreNews();
+  }catch(err){
+    document.getElementById("news").innerHTML="<p>خطا در دریافت خبرها.</p>";
+  }
+}
 
-    // بارگذاری خودکار خبرهای عمومی هنگام باز شدن سایت
-    getNews();
-  </script>
+function displayNews(start,count){
+  const newsDiv=document.getElementById("news");
+  for(let i=start;i<start+count&&i<newsItems.length;i++){
+    const item=newsItems[i];
+    const newsItem=document.createElement("div");
+    newsItem.className="news-item";
+    newsItem.innerHTML=`
+      ${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <a href="${item.link}" target="_blank">مشاهده کامل خبر</a>
+    `;
+    newsDiv.appendChild(newsItem);
+  }
+  displayedCount+=count;
+}
+
+function loadMoreNews(){
+  if(loading) return;
+  loading=true;
+  displayNews(displayedCount,5);
+  loading=false;
+}
+
+window.addEventListener('scroll', ()=>{
+  if(window.innerHeight + window.scrollY >= document.body.offsetHeight - 100){
+    loadMoreNews();
+  }
+});
+
+function setupSlider(){
+  const sliderDiv=document.getElementById("slider");
+  sliderDiv.innerHTML="";
+  newsItems.slice(0,3).forEach((item,i)=>{
+    const slide=document.createElement("div");
+    slide.className="slide"+(i===0?" active":"");
+    slide.innerHTML=`<img src="${item.image}" alt=""><h2>${item.title}</h2>`;
+    sliderDiv.appendChild(slide);
+  });
+  const slides=document.querySelectorAll(".slide");
+  slideIndex=0;
+  slideInterval=setInterval(()=>{
+    slides.forEach(s=>s.classList.remove("active"));
+    slideIndex=(slideIndex+1)%slides.length;
+    slides[slideIndex].classList.add("active");
+  },4000);
+}
+
+// جستجوی زنده
+function filterNews(){
+  const query=document.getElementById('search').value.toLowerCase();
+  document.getElementById("news").innerHTML="";
+  displayedCount=0;
+  const filtered=newsItems.filter(item=>item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query));
+  filtered.forEach(item=>{
+    const newsDiv=document.getElementById("news");
+    const newsItem=document.createElement("div");
+    newsItem.className="news-item";
+    newsItem.innerHTML=`
+      ${item.image?`<img src="${item.image}" alt="news image"/>`:""}
+      <h3>${item.title}</h3>
+      <p>${item.desc}</p>
+      <a href="${item.link}" target="_blank">مشاهده کامل خبر</a>
+    `;
+    newsDiv.appendChild(newsItem);
+  });
+}
+
+// بارگذاری پیش‌فرض BBC
+loadNews('bbc', document.querySelector('nav button'));
+</script>
+
 </body>
 </html>

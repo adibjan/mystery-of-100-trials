@@ -1,204 +1,26 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>🌍 World News | اخبار زنده جهان</title>
-  <style>
-    body {
-      font-family: "Tahoma", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f4f4;
-      direction: rtl;
-      transition: all 0.4s ease;
-    }
-    header {
-      background: #1a1a2e;
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      font-size: 28px;
-      font-weight: bold;
-    }
-    .subtitle {
-      font-size: 14px;
-      color: #ccc;
-    }
-    nav {
-      text-align: center;
-      background: #16213e;
-      padding: 10px;
-    }
-    nav button {
-      background: #0f3460;
-      color: #fff;
-      border: none;
-      margin: 5px;
-      padding: 10px 15px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    nav button:hover {
-      background: #e94560;
-    }
-    #news {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-    .news-item {
-      background: #fff;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-    .news-item:hover {
-      transform: scale(1.01);
-    }
-    .news-item img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
-    .news-item h3 {
-      color: #1a1a2e;
-      font-size: 18px;
-    }
-    .news-item p {
-      color: #444;
-      font-size: 14px;
-    }
-    .news-item a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #e94560;
-      text-decoration: none;
-    }
-    #loadMore {
-      display: block;
-      margin: 20px auto;
-      padding: 10px 25px;
-      background: #0f3460;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    #langToggle {
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      background: #0f3460;
-      color: #fff;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery of 100 Trials</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    🌍 World News
-    <div class="subtitle">اخبار زنده جهان</div>
-  </header>
 
-  <button id="langToggle">EN</button>
+<div id="auth-screen">
+    <h1>Mystery of 100 Trials</h1>
+    <button id="loginBtn">Login / Register</button>
+</div>
 
-  <div id="news">در حال بارگذاری اخبار...</div>
-  <button id="loadMore">بیشتر ببین</button>
+<canvas id="gameCanvas" width="1280" height="720"></canvas>
 
-  <script>
-    let currentLang = 'fa';
-    let allNews = [];
-    let displayed = 0;
-    const batchSize = 20;
-
-    async function loadNews() {
-      const sources = [
-        "https://feeds.bbci.co.uk/news/world/rss.xml",
-        "https://rss.cnn.com/rss/edition_world.rss",
-        "https://www.aljazeera.com/xml/rss/all.xml",
-        "https://www.reutersagency.com/feed/?best-topics=world&post_type=best",
-        "https://ariananews.af/feed/"
-      ];
-
-      let combined = [];
-      for (const url of sources) {
-        try {
-          const res = await fetch("https://api.allorigins.win/get?url=" + encodeURIComponent(url));
-          const data = await res.json();
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(data.contents, "text/xml");
-          const items = xml.querySelectorAll("item");
-          items.forEach(item => {
-            combined.push({
-              title: item.querySelector("title")?.textContent || "",
-              link: item.querySelector("link")?.textContent || "#",
-              desc: item.querySelector("description")?.textContent || "",
-              image: item.querySelector("media\\:content, enclosure")?.getAttribute("url") || ""
-            });
-          });
-        } catch (e) {
-          console.log("Error loading:", url);
-        }
-      }
-
-      combined = combined.sort(() => Math.random() - 0.5);
-      allNews = combined;
-      displayNews();
-    }
-
-    function displayNews() {
-      const newsDiv = document.getElementById("news");
-      const end = Math.min(displayed + batchSize, allNews.length);
-      let html = "";
-
-      for (let i = displayed; i < end; i++) {
-        const n = allNews[i];
-        html += `
-          <div class="news-item">
-            ${n.image ? `<img src="${n.image}" alt="news"/>` : ""}
-            <h3>${n.title}</h3>
-            <p>${n.desc}</p>
-            <a href="${n.link}" target="_blank">${currentLang === 'fa' ? 'مشاهده کامل خبر' : 'Read full story'}</a>
-          </div>`;
-      }
-      if (displayed === 0) newsDiv.innerHTML = html;
-      else newsDiv.innerHTML += html;
-      displayed = end;
-
-      if (displayed >= allNews.length) {
-        document.getElementById("loadMore").style.display = "none";
-      }
-    }
-
-    document.getElementById("loadMore").addEventListener("click", displayNews);
-
-    document.getElementById("langToggle").addEventListener("click", () => {
-      if (currentLang === 'fa') {
-        document.body.dir = "ltr";
-        document.body.style.fontFamily = "Arial, sans-serif";
-        document.querySelector("header").innerHTML = "🌍 World News<br><div class='subtitle'>Live Global Updates</div>";
-        document.getElementById("loadMore").textContent = "Load More";
-        document.getElementById("langToggle").textContent = "FA";
-        currentLang = 'en';
-      } else {
-        document.body.dir = "rtl";
-        document.body.style.fontFamily = "Tahoma, sans-serif";
-        document.querySelector("header").innerHTML = "🌍 World News<br><div class='subtitle'>اخبار زنده جهان</div>";
-        document.getElementById("loadMore").textContent = "بیشتر ببین";
-        document.getElementById("langToggle").textContent = "EN";
-        currentLang = 'fa';
-      }
-    });
-
-    loadNews();
-  </script>
+<script src="firebaseConfig.js"></script>
+<script src="auth.js"></script>
+<script src="engine/renderer.js"></script>
+<script src="engine/physics.js"></script>
+<script src="engine/ai.js"></script>
+<script src="engine/levelManager.js"></script>
+<script src="game.js"></script>
 </body>
 </html>

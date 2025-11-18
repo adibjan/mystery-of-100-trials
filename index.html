@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بازی حافظه فوق حرفه‌ای</title>
+<title>Advanced Memory Game</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="start-screen" class="screen">
-    <h1>Professional memory game for adults</h1>
-    <p>آخرین مرحله: <span id="last-level">1</span> | آخرین امتیاز: <span id="last-score">0</span></p>
-    <button id="start-btn">شروع بازی</button>
+    <h1>🎯 Advanced Memory Game</h1>
+    <p>Last Level: <span id="last-level">1</span> | Last Score: <span id="last-score">0</span></p>
+    <button id="start-btn">Start Game</button>
 </div>
 
 <div id="game-screen" class="screen hidden">
-    <h2>مرحله: <span id="level">1</span> | امتیاز: <span id="score">0</span> | زمان: <span id="timer">30</span> ثانیه</h2>
+    <h2>Level: <span id="level">1</span> | Score: <span id="score">0</span> | Time: <span id="timer">30</span> sec</h2>
     <div id="game-board"></div>
-    <button id="back-btn">بازگشت به صفحه آغاز</button>
+    <button id="back-btn">Back to Start</button>
 </div>
 
 <audio id="match-sound" src="match.mp3"></audio>
 <audio id="wrong-sound" src="wrong.mp3"></audio>
+<audio id="reward-sound" src="reward.mp3"></audio>
 <audio id="win-sound" src="win.mp3"></audio>
 
 <script src="game.js"></script>

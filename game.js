@@ -1,52 +1,48 @@
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
+// المان‌ها
+const startScreen = document.getElementById('start-screen');
+const gameScreen = document.getElementById('game-screen');
+const startBtn = document.getElementById('start-btn');
+const backBtn = document.getElementById('back-btn');
+const levelSpan = document.getElementById('level');
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
 
-// --- ذخیره‌سازی آفلاین ---
-let saveData = JSON.parse(localStorage.getItem("saveGame")) || {
-    x: 100,
-    y: 100
-};
+let level = 1;
 
-let playerX = saveData.x;
-let playerY = saveData.y;
-
-// دکمه شروع بازی
-document.getElementById("startBtn").onclick = () => {
-    document.getElementById("start-screen").style.display = "none";
-    canvas.style.display = "block";
-};
-
-// حرکت بازیکن
-let keys = {};
-document.addEventListener("keydown", e => keys[e.key] = true);
-document.addEventListener("keyup", e => keys[e.key] = false);
-
-// ذخیره اتومات
-function saveGame() {
-    localStorage.setItem("saveGame", JSON.stringify({
-        x: playerX,
-        y: playerY
-    }));
+// بارگذاری آخرین مرحله از LocalStorage
+if (localStorage.getItem('lastLevel')) {
+    level = parseInt(localStorage.getItem('lastLevel'), 10);
+    levelSpan.textContent = level;
 }
 
-// بازی اصلی
-function gameLoop() {
+// نمایش صفحه بازی
+function startGame() {
+    startScreen.classList.add('hidden');
+    gameScreen.classList.remove('hidden');
+    drawSquare();
+}
+
+// بازگشت به صفحه آغاز
+function backToStart() {
+    gameScreen.classList.add('hidden');
+    startScreen.classList.remove('hidden');
+}
+
+// رسم مربع ساده (نسخه تست)
+function drawSquare() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // حرکت
-    if (keys["w"]) playerY -= 3;
-    if (keys["s"]) playerY += 3;
-    if (keys["a"]) playerX -= 3;
-    if (keys["d"]) playerX += 3;
-
-    // رسم بازیکن
-    ctx.fillStyle = "white";
-    ctx.fillRect(playerX, playerY, 40, 40);
-
-    // ذخیره هر ثانیه
-    if (Date.now() % 1000 < 16) saveGame();
-
-    requestAnimationFrame(gameLoop);
+    ctx.fillStyle = 'red';
+    ctx.fillRect(50 + (level-1)*10, 50 + (level-1)*10, 50, 50);
 }
 
-gameLoop();
+// دکمه‌ها
+startBtn.addEventListener('click', startGame);
+backBtn.addEventListener('click', backToStart);
+
+// شبیه‌سازی پیشرفت مرحله برای تست ذخیره‌سازی
+canvas.addEventListener('click', () => {
+    level++;
+    levelSpan.textContent = level;
+    localStorage.setItem('lastLevel', level);
+    drawSquare();
+});

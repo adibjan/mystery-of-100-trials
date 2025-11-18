@@ -1,44 +1,25 @@
-body {
-    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-    color: white;
-    text-align: center;
-    font-family: Arial;
+body { background: linear-gradient(to right,#0f2027,#203a43,#2c5364); color:white; text-align:center; font-family:Arial; }
+.hidden{display:none;}
+#game-board{display:grid; grid-template-columns:repeat(auto-fit,minmax(80px,1fr)); width:80%; margin:auto; gap:10px;}
+.card{background:#333; border-radius:8px; height:80px; font-size:32px; display:flex; justify-content:center; align-items:center; transition:0.4s; cursor:pointer;}
+.card.flipped{background:yellow; color:black; transform:scale(1.1) rotateY(180deg); box-shadow:0 0 20px gold;}
+#tournament{background:gold;color:black;padding:10px;margin-top:10px;border-radius:10px;box-shadow:0 0 20px gold;font-weight:bold;}
+#chat{margin-top:10px;}
+#chatMessages{max-height:200px; overflow-y:scroll;background:#222; padding:5px;border-radius:5px;margin-top:5px;}
+#playersList{margin-bottom:10px;}
+.animatedButton{
+  padding:10px 20px;
+  margin:5px;
+  border:none;
+  border-radius:10px;
+  background:linear-gradient(45deg,#ff0066,#ffcc00);
+  color:black;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+  box-shadow:0 0 10px rgba(255,255,255,0.5);
 }
-
-.hidden { display: none; }
-
-#game-board {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    width: 80%;
-    margin: auto;
-    gap: 10px;
-}
-
-.card {
-    background: #333;
-    border-radius: 8px;
-    height: 80px;
-    font-size: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: 0.4s;
-    cursor: pointer;
-}
-
-.card.flipped {
-    background: yellow;
-    color: black;
-    transform: scale(1.1);
-}
-
-#tournament {
-    background: gold;
-    color: black;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px gold;
-    font-weight: bold;
+.animatedButton:hover{
+  transform:scale(1.1) rotate(-2deg);
+  box-shadow:0 0 20px rgba(255,255,255,0.8);
 }

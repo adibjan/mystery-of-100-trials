@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mystery of 100 Trials</title>
+    <title>بازی نسخه 1</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="start-screen" class="screen">
+        <h1>به بازی خوش آمدید!</h1>
+        <button id="start-btn">شروع بازی</button>
+    </div>
 
-<div id="start-screen">
-    <h1>Mystery of 100 Trials</h1>
-    <button id="startBtn">Start Game</button>
-</div>
+    <div id="game-screen" class="screen hidden">
+        <h2>مرحله: <span id="level">1</span></h2>
+        <canvas id="game-canvas" width="400" height="400"></canvas>
+        <button id="back-btn">بازگشت به صفحه آغاز</button>
+    </div>
 
-<canvas id="gameCanvas" width="800" height="450"></canvas>
-
-<script src="game.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>

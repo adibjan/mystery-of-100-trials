@@ -1,17 +1,27 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بازی نسخه تست</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بازی نهایی فوق حرفه‌ای</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="game-screen" class="screen">
-        <h2>مرحله: <span id="level">1</span></h2>
-        <canvas id="game-canvas" width="400" height="400"></canvas>
-    </div>
+<div id="start-screen" class="screen">
+    <h1>🎮 خوش آمدید به بازی فوق حرفه‌ای!</h1>
+    <p>آخرین مرحله: <span id="last-level">1</span> | آخرین امتیاز: <span id="last-score">0</span></p>
+    <button id="start-btn">شروع بازی</button>
+</div>
 
-    <script src="game.js"></script>
+<div id="game-screen" class="screen hidden">
+    <h2>مرحله: <span id="level">1</span> | امتیاز: <span id="score">0</span></h2>
+    <canvas id="game-canvas" width="700" height="500"></canvas>
+    <button id="back-btn">بازگشت به صفحه آغاز</button>
+</div>
+
+<audio id="goal-sound" src="goal.mp3"></audio>
+<audio id="hit-sound" src="hit.mp3"></audio>
+
+<script src="game.js"></script>
 </body>
 </html>

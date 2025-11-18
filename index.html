@@ -5,58 +5,60 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ultra Pro 3D Memory Game</title>
 <link rel="stylesheet" href="style.css">
-
-<!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
-<!-- Tween animation library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/20.0.0/tween.umd.js"></script>
-
+<style>
+    body { margin:0; font-family: Verdana, sans-serif; overflow:hidden; background:#0a0a1a; color:#fff; }
+    #game-canvas { display:block; width:100vw; height:100vh; }
+    #ui-container { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; }
+    .screen { position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center; pointer-events:auto; }
+    .hidden { display:none; }
+    button { padding:10px 20px; margin:5px; cursor:pointer; border:none; border-radius:8px; background:#ff9800; color:#fff; font-size:16px; transition:0.2s; }
+    button:hover { background:#fb8c00; }
+    #loot-box { margin-top:20px; padding:15px; background:gold; color:#000; border-radius:12px; display:inline-block; }
+    #loot-result { margin-top:10px; font-size:20px; color:#ff5722; }
+    #scoreboard { position:absolute; top:10px; left:10px; font-size:18px; text-align:left; }
+</style>
 </head>
 <body>
 
+<canvas id="game-canvas"></canvas>
+
 <div id="ui-container">
-
-    <!-- Start Screen -->
     <div id="start-screen" class="screen">
-        <h1>🔥 Ultra Pro 3D Memory Game</h1>
-        <p>A next‑generation intelligent memory challenge</p>
-
-        <label>
-            Players:
+        <h1>🎯 Ultra Pro 3D Memory Game</h1>
+        <label>Number of Players:
             <select id="player-count">
-                <option value="1">Single Player</option>
-                <option value="2">2 Players</option>
-                <option value="3">3 Players</option>
-                <option value="4">4 Players</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
             </select>
         </label>
-
-        <button id="start-btn">Start</button>
+        <br>
+        <button id="start-btn">Start Game</button>
     </div>
 
-    <!-- Scoreboard -->
     <div id="scoreboard" class="hidden"></div>
 
-    <!-- Loot Box -->
-    <div id="loot-box" class="hidden">
-        <h2>🎁 Loot Box Unlocked</h2>
-        <button id="open-loot-btn">Open</button>
+    <div id="loot-box" class="hidden screen">
+        <h3>🎁 Loot Box Unlocked!</h3>
+        <button id="open-loot-btn">Open Loot Box</button>
         <div id="loot-result"></div>
     </div>
 
-    <button id="back-btn" class="hidden">Back</button>
+    <button id="back-btn" class="screen hidden">Back to Start</button>
 </div>
 
-<!-- Canvas for the 3D Game -->
-<canvas id="game-canvas"></canvas>
+<!-- 3D Libraries -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tweenjs/tween.js@18.6.4/dist/tween.umd.js"></script>
+
+<!-- Game Script -->
+<script src="game3d.js"></script>
 
 <!-- Sounds -->
 <audio id="match-sound" src="match.mp3"></audio>
 <audio id="wrong-sound" src="wrong.mp3"></audio>
 <audio id="reward-sound" src="reward.mp3"></audio>
 <audio id="win-sound" src="win.mp3"></audio>
-
-<script src="game3d.js"></script>
 
 </body>
 </html>

@@ -3,58 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Puzzle Quest</title>
+<title>Ultra Pro 3D Memory Game</title>
 <link rel="stylesheet" href="style.css">
+
+<!-- Three.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
+<!-- Tween animation library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/20.0.0/tween.umd.js"></script>
+
 </head>
 <body>
 
-<!-- MAIN MENU -->
-<div id="mainMenu" class="menu-screen">
-    <h1 class="game-title">Number Puzzle Quest</h1>
-    <button class="menu-btn" onclick="startGame()">Start Game</button>
-    <button class="menu-btn" onclick="openLoot()">Loot Boxes</button>
-    <button class="menu-btn" onclick="openCards()">Cards</button>
-    <button class="menu-btn" onclick="openWorlds()">Select World</button>
-    <button class="menu-btn" onclick="openBoss()">Boss Fight</button>
+<div id="ui-container">
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen">
+        <h1>🔥 Ultra Pro 3D Memory Game</h1>
+        <p>A next‑generation intelligent memory challenge</p>
+
+        <label>
+            Players:
+            <select id="player-count">
+                <option value="1">Single Player</option>
+                <option value="2">2 Players</option>
+                <option value="3">3 Players</option>
+                <option value="4">4 Players</option>
+            </select>
+        </label>
+
+        <button id="start-btn">Start</button>
+    </div>
+
+    <!-- Scoreboard -->
+    <div id="scoreboard" class="hidden"></div>
+
+    <!-- Loot Box -->
+    <div id="loot-box" class="hidden">
+        <h2>🎁 Loot Box Unlocked</h2>
+        <button id="open-loot-btn">Open</button>
+        <div id="loot-result"></div>
+    </div>
+
+    <button id="back-btn" class="hidden">Back</button>
 </div>
 
-<!-- LOOT SCREEN -->
-<div id="lootBoxScreen" class="menu-screen hidden">
-    <h2 class="section-title">Loot Boxes</h2>
-    <button class="loot" onclick="openLootBox('epic')">Epic Loot</button>
-    <button class="loot" onclick="openLootBox('legendary')">Legendary Loot</button>
-    <button class="loot" onclick="openLootBox('mythic')">Mythic Loot</button>
-    <button class="back-btn" onclick="goHome()">Back</button>
-</div>
+<!-- Canvas for the 3D Game -->
+<canvas id="game-canvas"></canvas>
 
-<!-- CARDS SCREEN -->
-<div id="cardScreen" class="menu-screen hidden">
-    <h2 class="section-title">Card Collection</h2>
-    <div class="card-list" id="cardList"></div>
-    <button class="back-btn" onclick="goHome()">Back</button>
-</div>
+<!-- Sounds -->
+<audio id="match-sound" src="match.mp3"></audio>
+<audio id="wrong-sound" src="wrong.mp3"></audio>
+<audio id="reward-sound" src="reward.mp3"></audio>
+<audio id="win-sound" src="win.mp3"></audio>
 
-<!-- WORLD SCREEN -->
-<div id="worldScreen" class="menu-screen hidden">
-    <h2 class="section-title">Select World</h2>
-    <button class="world-btn" onclick="selectWorld('jungle')">Jungle</button>
-    <button class="world-btn" onclick="selectWorld('ice')">Ice</button>
-    <button class="world-btn" onclick="selectWorld('desert')">Desert</button>
-    <button class="world-btn" onclick="selectWorld('tech')">Tech</button>
-    <button class="back-btn" onclick="goHome()">Back</button>
-</div>
+<script src="game3d.js"></script>
 
-<!-- BOSS SCREEN -->
-<div id="bossScreen" class="menu-screen hidden">
-    <h2 class="section-title">Boss Fight</h2>
-    <div class="boss-info">Defeat the boss by solving number puzzles!</div>
-    <button class="boss-btn" onclick="startBossFight()">Start Boss Fight</button>
-    <button class="back-btn" onclick="goHome()">Back</button>
-</div>
-
-<!-- GAME CANVAS -->
-<canvas id="gameCanvas"></canvas>
-
-<script src="game.js"></script>
 </body>
 </html>

@@ -8,8 +8,6 @@ const playersList=document.getElementById("playersList");
 const readyBtn=document.getElementById("readyBtn");
 const scoreboardDiv=document.getElementById("scoreboard");
 const gameBoard=document.getElementById("game-board");
-const startTournamentBtn=document.getElementById("startTournamentBtn");
-const showLeaderboardBtn=document.getElementById("showLeaderboardBtn");
 
 const chatInput=document.getElementById("chatInput");
 const sendChat=document.getElementById("sendChat");
@@ -18,7 +16,7 @@ const chatMessages=document.getElementById("chatMessages");
 const globalLeaderboardDiv=document.getElementById("globalLeaderboard");
 const leaderboardList=document.getElementById("leaderboardList");
 
-let roomId="solo", level=1; // Room خودکار تک نفره
+let roomId="solo", level=1;
 
 // Sounds
 const bgMusic=new Audio('sounds/background.mp3'); bgMusic.loop=true; bgMusic.volume=0.3; bgMusic.play();
@@ -32,7 +30,7 @@ startBtn.onclick=()=>{
     start.classList.add("hidden");
     game.classList.remove("hidden");
     roomLabel.textContent="Room: "+roomId;
-    playersList.textContent="Players in room: You";
+    playersList.textContent="Players: You";
     socket.emit("joinGame"); // فقط برای ثبت در سرور و leaderboard
     loadLevel();
 }
@@ -53,12 +51,12 @@ socket.on("receiveMessage",({id,msg})=>{
   chatMessages.scrollTop=chatMessages.scrollHeight;
 });
 
-// Tournament
-startTournamentBtn.onclick=()=>{ socket.emit("startTournament",roomId); }
-socket.on("tournamentStarted",data=>{document.getElementById("tournament").classList.remove("hidden");});
-
 // Show Global Leaderboard
-showLeaderboardBtn.onclick=()=>{ socket.emit("getGlobalLeaderboard"); }
+// همانند نسخه قبل
+document.getElementById("showLeaderboardBtn")?.addEventListener("click",()=>{
+  socket.emit("getGlobalLeaderboard");
+});
+
 socket.on("updateGlobalLeaderboard",data=>{
   globalLeaderboardDiv.classList.remove("hidden");
   leaderboardList.innerHTML="";
@@ -67,16 +65,6 @@ socket.on("updateGlobalLeaderboard",data=>{
     const div=document.createElement("div"); div.textContent=id+": "+score;
     leaderboardList.appendChild(div);
   });
-});
-
-// Room Update
-socket.on("roomUpdate", data=>{
-  // فقط برای تک‌نفره خودمون
-});
-
-// Start Game
-socket.on("startGame", data=>{
-  loadLevel();
 });
 
 // Load Level

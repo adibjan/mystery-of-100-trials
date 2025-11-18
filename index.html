@@ -1,36 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Pro Memory Game</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Ultra Pro Online Tournament</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div id="start-screen" class="screen">
-    <h1>🎯 Ultra Pro Memory Game</h1>
-    <p>Last Level: <span id="last-level">1</span> | Last Score: <span id="last-score">0</span> | Lives: <span id="lives">3</span></p>
-    <button id="start-btn">Start Game</button>
+
+<div id="start">
+    <h1>🏆 Ultra Pro Online Tournament</h1>
+    <input id="roomId" placeholder="Enter Room ID">
+    <button id="joinBtn">Join Room</button>
 </div>
 
-<div id="game-screen" class="screen hidden">
-    <h2>Level: <span id="level">1</span> | Score: <span id="score">0</span> | Time: <span id="timer">30</span> sec | Lives: <span id="lives-game">3</span></h2>
+<div id="game" class="hidden">
+    <h2 id="roomLabel"></h2>
+    <div id="scoreboard"></div>
     <div id="game-board"></div>
-    <div id="loot-box" class="hidden">
-        <h3>🎁 Loot Box Unlocked!</h3>
-        <p>Click to reveal your reward!</p>
-        <button id="open-loot">Open Loot Box</button>
-        <div id="loot-result"></div>
-    </div>
-    <button id="back-btn">Back to Start</button>
+    <div id="tournament" class="hidden">🔥 Tournament Mode Activated!</div>
 </div>
 
-<!-- Sounds -->
-<audio id="match-sound" src="match.mp3"></audio>
-<audio id="wrong-sound" src="wrong.mp3"></audio>
-<audio id="reward-sound" src="reward.mp3"></audio>
-<audio id="win-sound" src="win.mp3"></audio>
-
-<script src="game.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
 </body>
 </html>

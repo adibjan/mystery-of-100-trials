@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Advanced Memory Game</title>
+<title>Ultra Pro Memory Game</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div id="start-screen" class="screen">
-    <h1>🎯 Ultra Advanced Memory Game</h1>
+    <h1>🎯 Ultra Pro Memory Game</h1>
     <p>Last Level: <span id="last-level">1</span> | Last Score: <span id="last-score">0</span> | Lives: <span id="lives">3</span></p>
     <button id="start-btn">Start Game</button>
 </div>
@@ -16,9 +16,16 @@
 <div id="game-screen" class="screen hidden">
     <h2>Level: <span id="level">1</span> | Score: <span id="score">0</span> | Time: <span id="timer">30</span> sec | Lives: <span id="lives-game">3</span></h2>
     <div id="game-board"></div>
+    <div id="loot-box" class="hidden">
+        <h3>🎁 Loot Box Unlocked!</h3>
+        <p>Click to reveal your reward!</p>
+        <button id="open-loot">Open Loot Box</button>
+        <div id="loot-result"></div>
+    </div>
     <button id="back-btn">Back to Start</button>
 </div>
 
+<!-- Sounds -->
 <audio id="match-sound" src="match.mp3"></audio>
 <audio id="wrong-sound" src="wrong.mp3"></audio>
 <audio id="reward-sound" src="reward.mp3"></audio>

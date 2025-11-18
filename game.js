@@ -1,147 +1,258 @@
-const startScreen = document.getElementById('start-screen');
-const lastLevelSpan = document.getElementById('last-level');
-const lastScoreSpan = document.getElementById('last-score');
-const gameScreen = document.getElementById('game-screen');
-const startBtn = document.getElementById('start-btn');
-const backBtn = document.getElementById('back-btn');
-const levelSpan = document.getElementById('level');
-const scoreSpan = document.getElementById('score');
-const timerSpan = document.getElementById('timer');
-const gameBoard = document.getElementById('game-board');
-const lootBoxDiv = document.getElementById('loot-box');
-const openLootBtn = document.getElementById('open-loot');
-const lootResult = document.getElementById('loot-result');
-const livesSpan = document.getElementById('lives-game');
+// ==============================
+// CYBER NEON LEGENDS — ADVANCED GAME.JS
+// ==============================
 
-// Sounds
-const matchSound = document.getElementById('match-sound');
-const wrongSound = document.getElementById('wrong-sound');
-const rewardSound = document.getElementById('reward-sound');
-const winSound = document.getElementById('win-sound');
+// ====== GLOBAL VARIABLES ======
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
 
-let level = 1, score = 0, lives = 3;
-let cards = [], firstCard = null, secondCard = null, lockBoard = false;
-let timeLeft = 30, timerInterval = null;
+let canvasWidth = window.innerWidth;
+let canvasHeight = window.innerHeight;
 
-// Load last state
-if(localStorage.getItem('lastLevel')) level = parseInt(localStorage.getItem('lastLevel'),10);
-if(localStorage.getItem('score')) score = parseInt(localStorage.getItem('score'),10);
+canvas.width = canvasWidth;
+canvas.height = canvasHeight;
 
-function startGame(){
-    startScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-    lootBoxDiv.classList.add('hidden');
-    levelSpan.textContent = level;
-    scoreSpan.textContent = score;
-    livesSpan.textContent = lives;
-    setupLevel();
-    startTimer();
+let running = false;
+let score = 0;
+let level = 1;
+
+// ===== PLAYER =====
+let player = {
+    x: canvasWidth/2 - 25,
+    y: canvasHeight - 100,
+    w: 50,
+    h: 50,
+    speed: 15,
+    color: "#00eaff",
+    glow: 0
+};
+
+// ===== ITEMS & ENEMIES =====
+let items = [];
+let enemies = [];
+let lootBoxes = [];
+let cards = [];
+
+// ===== WORLDS =====
+const worlds = {
+    jungle: { bg:"#003300", enemySpeed:2, itemSpeed:2 },
+    ice: { bg:"#001144", enemySpeed:3, itemSpeed:1.5 },
+    desert: { bg:"#664400", enemySpeed:2.5, itemSpeed:2 },
+    tech: { bg:"#111111", enemySpeed:3, itemSpeed:2.5 }
+};
+let currentWorld = worlds.jungle;
+
+// ===== BOSS =====
+let boss = null;
+
+// ===== SOUNDS =====
+const s_collect = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_d15c4190b0.mp3?filename=coin-199953.mp3");
+const s_hit = new Audio("https://cdn.pixabay.com/download/audio/2022/03/10/audio_3dc6fd48f4.mp3?filename=hit-204253.mp3");
+const s_music = new Audio("https://cdn.pixabay.com/download/audio/2022/03/15/audio_d44c2c0da8.mp3?filename=fun-game-loop-206609.mp3");
+s_music.loop = true;
+s_music.volume = 0.35;
+
+// ===== EVENT LISTENERS =====
+document.addEventListener("keydown", e => {
+    if(e.key === "ArrowLeft" && player.x > 0) player.x -= player.speed;
+    if(e.key === "ArrowRight" && player.x < canvasWidth - player.w) player.x += player.speed;
+});
+window.addEventListener("resize", () => {
+    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight;
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+});
+
+// ===== MENU FUNCTIONS =====
+function hideAllScreens() {
+    document.querySelectorAll(".menu-screen").forEach(el=>el.classList.add("hidden"));
+}
+function goHome() {
+    hideAllScreens();
+    document.getElementById("mainMenu").classList.remove("hidden");
+}
+function startGame() {
+    hideAllScreens();
+    canvas.style.display = "block";
+    running = true;
+    score = 0;
+    level = 1;
+    s_music.play();
+    loop();
+}
+function openLoot() { hideAllScreens(); document.getElementById("lootBoxScreen").classList.remove("hidden"); }
+function openCards() { hideAllScreens(); document.getElementById("cardScreen").classList.remove("hidden"); renderCards(); }
+function openWorlds() { hideAllScreens(); document.getElementById("worldScreen").classList.remove("hidden"); }
+function openBoss() { hideAllScreens(); document.getElementById("bossScreen").classList.remove("hidden"); }
+
+// ===== LOOT BOX SYSTEM WITH ANIMATION =====
+function openLootBox(type) {
+    const lootNames = {
+        epic: ["Epic Card 1","Epic Card 2","Epic Card 3"],
+        legendary: ["Legendary Card 1","Legendary Card 2"],
+        mythic: ["Mythic Card 1"]
+    };
+    const lootArray = lootNames[type];
+    const reward = lootArray[Math.floor(Math.random()*lootArray.length)];
+    cards.push(reward);
+    s_collect.play();
+    alert("You received: "+reward);
+
+    // Animate card
+    const cardDiv = document.createElement("div");
+    cardDiv.className = "card-item";
+    cardDiv.innerText = reward;
+    document.getElementById("cardList").appendChild(cardDiv);
+    cardDiv.animate([{transform:'scale(0)', opacity:0},{transform:'scale(1.2)',opacity:1},{transform:'scale(1)',opacity:1}],{duration:600,easing:'ease-out'});
+
+    saveCards();
 }
 
-function backToStart(){
-    gameScreen.classList.add('hidden');
-    startScreen.classList.remove('hidden');
-    clearInterval(timerInterval);
+// ===== CARD COLLECTION =====
+function renderCards() {
+    const cardList = document.getElementById("cardList");
+    cardList.innerHTML = "";
+    cards.forEach(c=>{
+        const div = document.createElement("div");
+        div.className="card-item";
+        div.innerText=c;
+        cardList.appendChild(div);
+    });
+}
+function saveCards() { localStorage.setItem("cyberCards", JSON.stringify(cards)); }
+function loadCards() { const saved = JSON.parse(localStorage.getItem("cyberCards")); if(saved) cards = saved; }
+
+// ===== WORLD SELECT =====
+function selectWorld(world) { currentWorld = worlds[world]; alert("World selected: "+world); goHome(); }
+
+// ===== BOSS MODE =====
+function startBossFight() {
+    boss = {
+        x: canvasWidth/2 - 50,
+        y: 50,
+        w: 100,
+        h: 100,
+        hp: 100,
+        color:"#ff00ff",
+        dx: 3,
+        dy: 2
+    };
+    hideAllScreens();
+    canvas.style.display="block";
+    running=true;
+    loop();
 }
 
-function startTimer(){
-    timeLeft = Math.max(30 - level*2,10);
-    timerSpan.textContent = timeLeft;
-    clearInterval(timerInterval);
-    timerInterval = setInterval(()=>{
-        timeLeft--;
-        timerSpan.textContent = timeLeft;
-        if(timeLeft <= 0){
-            clearInterval(timerInterval);
-            lives--;
-            if(lives<=0){ alert("Game Over!"); resetGame(); return; }
-            alert("Time's up! You lost 1 life.");
-            livesSpan.textContent = lives;
-            setupLevel(); startTimer();
-        }
-    },1000);
-}
-
-function resetGame(){
-    level=1; score=0; lives=3;
-    localStorage.setItem('lastLevel', level);
-    localStorage.setItem('score', score);
-    startScreen.classList.remove('hidden');
-    gameScreen.classList.add('hidden');
-}
-
-function setupLevel(){
-    gameBoard.innerHTML = ''; cards=[]; firstCard=null; secondCard=null; lockBoard=false;
-    const numPairs = level + 3;
-    const values = [];
-    for(let i=1;i<=numPairs;i++){ values.push(i); values.push(i); }
-    values.sort(()=>Math.random()-0.5);
-    values.forEach(val=>{
-        const card = document.createElement('div');
-        card.classList.add('card'); card.dataset.value=val; card.textContent='';
-        card.addEventListener('click', flipCard);
-        gameBoard.appendChild(card); cards.push(card);
+// ===== SPAWN ITEMS =====
+function spawnItem() {
+    items.push({
+        x: Math.random()*(canvasWidth-30),
+        y: -30,
+        w: 30,
+        h: 30,
+        speed: currentWorld.itemSpeed + Math.random()*2
     });
 }
 
-function flipCard(){
-    if(lockBoard) return;
-    if(this===firstCard) return;
-    this.classList.add('flipped'); this.textContent=this.dataset.value;
-    if(!firstCard){ firstCard=this; return; }
-    secondCard=this; lockBoard=true; checkMatch();
+// ===== SPAWN ENEMIES =====
+function spawnEnemy() {
+    enemies.push({
+        x: Math.random()*(canvasWidth-40),
+        y: -40,
+        w: 40,
+        h: 40,
+        speed: currentWorld.enemySpeed + Math.random()*2
+    });
 }
 
-function checkMatch(){
-    if(firstCard.dataset.value===secondCard.dataset.value){
-        firstCard.classList.add('matched'); secondCard.classList.add('matched');
-        score += 10; scoreSpan.textContent = score;
-        matchSound.play();
-        resetTurn(); checkLevelComplete();
-    } else {
-        wrongSound.play();
-        setTimeout(()=>{
-            firstCard.classList.remove('flipped'); firstCard.textContent='';
-            secondCard.classList.remove('flipped'); secondCard.textContent='';
-            lives--; livesSpan.textContent = lives;
-            if(lives<=0){ alert("Game Over!"); resetGame(); return; }
-            resetTurn();
-        },800);
-    }
-}
+// ===== GAME LOOP =====
+function loop() {
+    if(!running) return;
 
-function resetTurn(){ [firstCard, secondCard, lockBoard] = [null,null,false]; }
+    // BACKGROUND
+    ctx.fillStyle = currentWorld.bg;
+    ctx.fillRect(0,0,canvasWidth,canvasHeight);
 
-function checkLevelComplete(){
-    const unmatched = cards.filter(c=>!c.classList.contains('matched'));
-    if(unmatched.length===0){
-        clearInterval(timerInterval);
-        level++; score+=20;
-        levelSpan.textContent=level; scoreSpan.textContent=score;
-        localStorage.setItem('lastLevel', level); localStorage.setItem('score', score);
-        winSound.play();
+    // PLAYER
+    player.glow = (player.glow+1)%360;
+    ctx.shadowColor = "#00eaff";
+    ctx.shadowBlur = 20 + 10*Math.sin(player.glow*Math.PI/180);
+    ctx.fillStyle = player.color;
+    ctx.fillRect(player.x, player.y, player.w, player.h);
+    ctx.shadowBlur=0;
 
-        // Show Loot Box after every 3 levels
-        if((level-1)%3===0){
-            lootBoxDiv.classList.remove('hidden');
-            rewardSound.play();
-        } else {
-            setTimeout(()=>{ setupLevel(); startTimer(); },1000);
+    // ITEMS
+    if(Math.random()<0.03) spawnItem();
+    items.forEach((it,i)=>{
+        it.y += it.speed;
+        ctx.fillStyle = "#00ff00";
+        ctx.fillRect(it.x,it.y,it.w,it.h);
+
+        // collision
+        if(it.y+it.h>player.y && it.x<player.x+player.w && it.x+it.w>player.x){
+            score++;
+            s_collect.play();
+            items.splice(i,1);
+
+            // animate glow
+            player.glow=0;
+        }
+        if(it.y>canvasHeight) items.splice(i,1);
+    });
+
+    // ENEMIES
+    if(Math.random()<0.02) spawnEnemy();
+    enemies.forEach((en,i)=>{
+        en.y += en.speed;
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(en.x,en.y,en.w,en.h);
+
+        if(en.y+en.h>player.y && en.x<player.x+player.w && en.x+en.w>player.x){
+            running=false;
+            s_hit.play();
+            s_music.pause();
+            setTimeout(()=>{ alert("GAME OVER! Score: "+score); location.reload(); },200);
+        }
+        if(en.y>canvasHeight) enemies.splice(i,1);
+    });
+
+    // BOSS
+    if(boss){
+        // move boss
+        boss.x += boss.dx;
+        boss.y += boss.dy;
+        if(boss.x <0 || boss.x+boss.w>canvasWidth) boss.dx*=-1;
+        if(boss.y<0 || boss.y+boss.h>canvasHeight/2) boss.dy*=-1;
+
+        ctx.fillStyle = boss.color;
+        ctx.fillRect(boss.x,boss.y,boss.w,boss.h);
+
+        // boss HP bar
+        ctx.fillStyle="#330000";
+        ctx.fillRect(canvasWidth/2 -150, 20, 300, 25);
+        ctx.fillStyle="#ff00ff";
+        ctx.fillRect(canvasWidth/2 -150, 20, 300*(boss.hp/100), 25);
+
+        // damage demo
+        boss.hp -= 0.05;
+        if(boss.hp <=0){
+            alert("Boss Defeated! You got Mythic Card!");
+            openLootBox("mythic");
+            boss=null;
         }
     }
+
+    // SCORE DISPLAY
+    ctx.fillStyle="#00eaff";
+    ctx.font="22px Arial";
+    ctx.fillText("Score: "+score+" | Level: "+level+" | Cards: "+cards.length,20,30);
+
+    // INCREASE DIFFICULTY
+    if(score>level*10){ level++; currentWorld.enemySpeed+=0.2; currentWorld.itemSpeed+=0.1; }
+
+    requestAnimationFrame(loop);
 }
 
-openLootBtn.addEventListener('click', ()=>{
-    const rewards = ["⭐ Star +50","⏰ Clock +5s","❤️ Heart +1 Life"];
-    const reward = rewards[Math.floor(Math.random()*rewards.length)];
-    lootResult.textContent = reward;
-    // Apply reward
-    if(reward.includes("Star")) score+=50;
-    if(reward.includes("Clock")) timeLeft+=5;
-    if(reward.includes("Heart")) { lives++; livesSpan.textContent=lives; }
-    scoreSpan.textContent = score;
-    setTimeout(()=>{ lootBoxDiv.classList.add('hidden'); setupLevel(); startTimer(); },1500);
-});
-
-startBtn.addEventListener('click', startGame);
-backBtn.addEventListener('click', backToStart);
+// ===== LOAD CARDS =====
+loadCards();

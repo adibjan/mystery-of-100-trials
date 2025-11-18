@@ -11,6 +11,7 @@ const gameBoard = document.getElementById('game-board');
 
 const matchSound = document.getElementById('match-sound');
 const wrongSound = document.getElementById('wrong-sound');
+const rewardSound = document.getElementById('reward-sound');
 const winSound = document.getElementById('win-sound');
 
 let level = 1;
@@ -22,7 +23,7 @@ let lockBoard = false;
 let timeLeft = 30;
 let timerInterval = null;
 
-// بارگذاری آخرین مرحله و امتیاز
+// Load last level and score
 if(localStorage.getItem('lastLevel')){
     level = parseInt(localStorage.getItem('lastLevel'),10);
     lastLevelSpan.textContent = level;
@@ -48,7 +49,7 @@ function backToStart(){
 }
 
 function startTimer(){
-    timeLeft = Math.max(30 - level*2,10); // سختی بیشتر = زمان کمتر
+    timeLeft = Math.max(30 - level*2,10);
     timerSpan.textContent = timeLeft;
     clearInterval(timerInterval);
     timerInterval = setInterval(()=>{
@@ -56,7 +57,7 @@ function startTimer(){
         timerSpan.textContent = timeLeft;
         if(timeLeft <= 0){
             clearInterval(timerInterval);
-            alert("زمان تمام شد! دوباره امتحان کنید.");
+            alert("Time's up! Try again.");
             setupLevel();
             startTimer();
         }
@@ -76,9 +77,15 @@ function setupLevel(){
         values.push(i);
     }
     values.sort(()=>Math.random()-0.5);
+
+    // Add one reward card randomly
+    const rewardIndex = Math.floor(Math.random()*values.length);
+    values[rewardIndex] = "⭐";
+
     values.forEach(val=>{
         const card = document.createElement('div');
         card.classList.add('card');
+        if(val === "⭐") card.classList.add('reward');
         card.dataset.value = val;
         card.textContent = '';
         card.addEventListener('click', flipCard);
@@ -105,12 +112,18 @@ function checkMatch(){
     if(firstCard.dataset.value === secondCard.dataset.value){
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
-        score += 10;
+
+        if(firstCard.dataset.value === "⭐"){
+            score += 50; // reward bonus
+            rewardSound.play();
+        } else {
+            score += 10;
+            matchSound.play();
+        }
         scoreSpan.textContent = score;
-        matchSound.play();
         resetTurn();
         checkLevelComplete();
-    }else{
+    } else {
         wrongSound.play();
         setTimeout(()=>{
             firstCard.classList.remove('flipped');

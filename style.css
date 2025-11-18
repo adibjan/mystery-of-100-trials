@@ -1,36 +1,27 @@
 body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #1e3c72, #2a5298);
-    margin: 0; padding: 0; color: white; text-align: center;
+    margin:0; padding:0; color:white; text-align:center;
 }
-
-.screen { padding-top: 40px; }
+.screen { padding-top:40px; }
 .hidden { display:none; }
 
 #game-board {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-    gap: 12px;
-    width: 90%; margin: 20px auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(80px,1fr));
+    gap:12px; width:90%; margin:20px auto;
 }
-
 .card {
-    background: #444; width: 80px; height: 80px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 30px; color: white; cursor: pointer; transition: 0.3s;
+    background:#444; width:80px; height:80px; border-radius:10px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:30px; color:white; cursor:pointer; transition:0.3s;
 }
-.card.flipped {
-    background: gold; color:black; transform: scale(1.1) rotateY(180deg);
-}
+.card.flipped { background: gold; color:black; transform: scale(1.1) rotateY(180deg); }
 .card.matched {
     background: lime; color:black; transform: scale(1.15);
-    box-shadow: 0 0 15px #ffff00;
-    animation: pulse 0.5s infinite alternate;
+    box-shadow:0 0 15px #ffff00; animation: pulse 0.5s infinite alternate;
 }
-
-@keyframes pulse {
-    from { transform: scale(1.1); } to { transform: scale(1.2); }
-}
+@keyframes pulse { from{transform:scale(1.1);} to{transform:scale(1.2);} }
 
 #loot-box {
     background: gold; padding:15px; border-radius:10px;
@@ -38,5 +29,6 @@ body {
     box-shadow:0 0 15px #ffd700; animation:pulse 0.6s infinite alternate;
 }
 
+#timer { font-size:20px; margin:10px; color:#ffeb3b; }
 button { padding:10px 20px; background:orange; border:none; border-radius:8px; color:white; font-size:18px; }
 button:hover { background:#fb8c00; }

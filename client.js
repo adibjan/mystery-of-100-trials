@@ -1,7 +1,7 @@
 const socket = io();
 
 const start=document.getElementById("start");
-const joinBtn=document.getElementById("joinBtn");
+const startBtn=document.getElementById("startBtn");
 const game=document.getElementById("game");
 const roomLabel=document.getElementById("roomLabel");
 const playersList=document.getElementById("playersList");
@@ -18,7 +18,7 @@ const chatMessages=document.getElementById("chatMessages");
 const globalLeaderboardDiv=document.getElementById("globalLeaderboard");
 const leaderboardList=document.getElementById("leaderboardList");
 
-let roomId="", level=1;
+let roomId="solo", level=1; // Room خودکار تک نفره
 
 // Sounds
 const bgMusic=new Audio('sounds/background.mp3'); bgMusic.loop=true; bgMusic.volume=0.3; bgMusic.play();
@@ -27,8 +27,15 @@ const wrongSound=new Audio('sounds/wrong.mp3');
 const rewardSound=new Audio('sounds/reward.mp3');
 function playSound(type){ if(type==="match") matchSound.play(); if(type==="wrong") wrongSound.play(); if(type==="reward") rewardSound.play(); }
 
-// Join Game
-joinBtn.onclick=()=>{ socket.emit("joinGame"); }
+// شروع بازی با کلیک Start
+startBtn.onclick=()=>{
+    start.classList.add("hidden");
+    game.classList.remove("hidden");
+    roomLabel.textContent="Room: "+roomId;
+    playersList.textContent="Players in room: You";
+    socket.emit("joinGame"); // فقط برای ثبت در سرور و leaderboard
+    loadLevel();
+}
 
 // Player Ready
 readyBtn.onclick=()=>{ socket.emit("playerReady",roomId); }
@@ -62,22 +69,15 @@ socket.on("updateGlobalLeaderboard",data=>{
   });
 });
 
-// Joined Room
-socket.on("joinedRoom",({roomId:rid,players})=>{
-  roomId=rid; roomLabel.textContent="Room: "+roomId;
-  start.classList.add("hidden"); game.classList.remove("hidden");
-  updatePlayersList(players);
+// Room Update
+socket.on("roomUpdate", data=>{
+  // فقط برای تک‌نفره خودمون
 });
 
-// Room Update
-socket.on("roomUpdate", data=>{ updatePlayersList(data.players); });
-
 // Start Game
-socket.on("startGame", data=>{ alert("All players ready! Game starts now!"); loadLevel(); });
-
-function updatePlayersList(players){
-  playersList.innerHTML="Players in room: "+players.join(", ");
-}
+socket.on("startGame", data=>{
+  loadLevel();
+});
 
 // Load Level
 function loadLevel(){

@@ -3,19 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Pro Memory Game - Advanced</title>
+<title>Ultra Pro Memory Game - Challenge Mode</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div id="start-screen" class="screen">
-    <h1>🎯 Ultra Pro Memory Game - Advanced</h1>
+    <h1>🎯 Ultra Pro Memory Game - Challenge Mode</h1>
     <button id="start-btn">Start Game</button>
 </div>
 
 <div id="game-screen" class="screen hidden">
     <h2 id="level-title">Level 1</h2>
     <div id="score">Score: 0 | XP: 0 | Level: 1</div>
+    <div id="timer">Time: 60s</div>
     <div id="game-board"></div>
 
     <div id="loot-box" class="hidden">
@@ -33,6 +34,6 @@
 <audio id="reward-sound" src="reward.mp3"></audio>
 <audio id="win-sound" src="win.mp3"></audio>
 
-<script src="game-advanced.js"></script>
+<script src="game-challenge.js"></script>
 </body>
 </html>

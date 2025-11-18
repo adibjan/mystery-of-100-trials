@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Ultra Pro Online Tournament</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Ultra Pro Online Tournament</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -17,7 +17,21 @@
     <h2 id="roomLabel"></h2>
     <div id="scoreboard"></div>
     <div id="game-board"></div>
+    <button id="startTournamentBtn">Start Tournament</button>
+    <button id="showLeaderboardBtn">Show Global Leaderboard</button>
+
     <div id="tournament" class="hidden">🔥 Tournament Mode Activated!</div>
+
+    <div id="chat">
+        <input id="chatInput" placeholder="Type message...">
+        <button id="sendChat">Send</button>
+        <div id="chatMessages"></div>
+    </div>
+
+    <div id="globalLeaderboard" class="hidden">
+        <h3>🌐 Global Leaderboard</h3>
+        <div id="leaderboardList"></div>
+    </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>

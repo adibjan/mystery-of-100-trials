@@ -8,6 +8,7 @@ const levelSpan = document.getElementById('level');
 const scoreSpan = document.getElementById('score');
 const timerSpan = document.getElementById('timer');
 const gameBoard = document.getElementById('game-board');
+const livesSpan = document.getElementById('lives-game');
 
 const matchSound = document.getElementById('match-sound');
 const wrongSound = document.getElementById('wrong-sound');
@@ -16,6 +17,7 @@ const winSound = document.getElementById('win-sound');
 
 let level = 1;
 let score = 0;
+let lives = 3;
 let cards = [];
 let firstCard = null;
 let secondCard = null;
@@ -38,6 +40,7 @@ function startGame(){
     gameScreen.classList.remove('hidden');
     levelSpan.textContent = level;
     scoreSpan.textContent = score;
+    livesSpan.textContent = lives;
     setupLevel();
     startTimer();
 }
@@ -57,11 +60,28 @@ function startTimer(){
         timerSpan.textContent = timeLeft;
         if(timeLeft <= 0){
             clearInterval(timerInterval);
-            alert("Time's up! Try again.");
-            setupLevel();
-            startTimer();
+            lives--;
+            if(lives <= 0){
+                alert("Game Over! Try again.");
+                resetGame();
+            } else {
+                alert("Time's up! You lost 1 life.");
+                livesSpan.textContent = lives;
+                setupLevel();
+                startTimer();
+            }
         }
     },1000);
+}
+
+function resetGame(){
+    level = 1;
+    score = 0;
+    lives = 3;
+    localStorage.setItem('lastLevel', level);
+    localStorage.setItem('score', score);
+    startScreen.classList.remove('hidden');
+    gameScreen.classList.add('hidden');
 }
 
 function setupLevel(){
@@ -70,6 +90,7 @@ function setupLevel(){
     firstCard = null;
     secondCard = null;
     lockBoard = false;
+
     const numPairs = level + 3;
     const values = [];
     for(let i=1;i<=numPairs;i++){
@@ -78,14 +99,20 @@ function setupLevel(){
     }
     values.sort(()=>Math.random()-0.5);
 
-    // Add one reward card randomly
-    const rewardIndex = Math.floor(Math.random()*values.length);
-    values[rewardIndex] = "⭐";
+    // Add 1-3 reward cards randomly
+    const rewardTypes = ["⭐","⏰","❤️"];
+    const rewardCards = rewardTypes.map(type=>{
+        const index = Math.floor(Math.random()*values.length);
+        values[index] = type;
+        return index;
+    });
 
     values.forEach(val=>{
         const card = document.createElement('div');
         card.classList.add('card');
-        if(val === "⭐") card.classList.add('reward');
+        if(val==="⭐") card.classList.add('reward-star');
+        if(val==="⏰") card.classList.add('reward-clock');
+        if(val==="❤️") card.classList.add('reward-heart');
         card.dataset.value = val;
         card.textContent = '';
         card.addEventListener('click', flipCard);
@@ -113,13 +140,23 @@ function checkMatch(){
         firstCard.classList.add('matched');
         secondCard.classList.add('matched');
 
-        if(firstCard.dataset.value === "⭐"){
-            score += 50; // reward bonus
+        // Reward cards
+        const rewardTypes = ["⭐","⏰","❤️"];
+        if(rewardTypes.includes(firstCard.dataset.value)){
+            if(firstCard.dataset.value==="⭐"){
+                score += 50;
+            } else if(firstCard.dataset.value==="⏰"){
+                timeLeft += 5;
+            } else if(firstCard.dataset.value==="❤️"){
+                lives++;
+                livesSpan.textContent = lives;
+            }
             rewardSound.play();
         } else {
             score += 10;
             matchSound.play();
         }
+
         scoreSpan.textContent = score;
         resetTurn();
         checkLevelComplete();
@@ -130,6 +167,13 @@ function checkMatch(){
             firstCard.textContent = '';
             secondCard.classList.remove('flipped');
             secondCard.textContent = '';
+            lives--;
+            livesSpan.textContent = lives;
+            if(lives<=0){
+                alert("Game Over! Try again.");
+                resetGame();
+                return;
+            }
             resetTurn();
         },800);
     }

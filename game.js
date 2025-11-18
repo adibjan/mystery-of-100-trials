@@ -1,8 +1,3 @@
-// المان‌ها
-const startScreen = document.getElementById('start-screen');
-const gameScreen = document.getElementById('game-screen');
-const startBtn = document.getElementById('start-btn');
-const backBtn = document.getElementById('back-btn');
 const levelSpan = document.getElementById('level');
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
@@ -15,31 +10,17 @@ if (localStorage.getItem('lastLevel')) {
     levelSpan.textContent = level;
 }
 
-// نمایش صفحه بازی
-function startGame() {
-    startScreen.classList.add('hidden');
-    gameScreen.classList.remove('hidden');
-    drawSquare();
-}
-
-// بازگشت به صفحه آغاز
-function backToStart() {
-    gameScreen.classList.add('hidden');
-    startScreen.classList.remove('hidden');
-}
-
-// رسم مربع ساده (نسخه تست)
+// رسم مربع ساده روی کانواس
 function drawSquare() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'red';
     ctx.fillRect(50 + (level-1)*10, 50 + (level-1)*10, 50, 50);
 }
 
-// دکمه‌ها
-startBtn.addEventListener('click', startGame);
-backBtn.addEventListener('click', backToStart);
+// نمایش اولیه مربع
+drawSquare();
 
-// شبیه‌سازی پیشرفت مرحله برای تست ذخیره‌سازی
+// کلیک روی کانواس برای افزایش مرحله و ذخیره‌سازی
 canvas.addEventListener('click', () => {
     level++;
     levelSpan.textContent = level;

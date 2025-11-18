@@ -34,7 +34,7 @@ function startLevel(){
     gameBoard.innerHTML="";
     lootBox.classList.add("hidden");
     levelTitle.textContent="Level "+level;
-    timer=60-level*5>15?60-level*5:15; // زمان کمتر با هر سطح
+    timer=60-level*5>15?60-level*5:15;
     timerDisplay.textContent="Time: "+timer+"s";
 
     clearInterval(timerInterval);

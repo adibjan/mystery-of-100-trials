@@ -1,36 +1,47 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-// --- ذخیره‌سازی آفلاین با LocalStorage ---
-let saveData = JSON.parse(localStorage.getItem("saveData")) || {
-    player: { x: 100, y: 100, hp: 100 },
-    currentLevel: 1
+// --- ذخیره‌سازی آفلاین ---
+let saveData = JSON.parse(localStorage.getItem("saveGame")) || {
+    x: 100,
+    y: 100
 };
 
-let player = saveData.player;
-let currentLevel = saveData.currentLevel;
+let playerX = saveData.x;
+let playerY = saveData.y;
 
-// ذخیره خودکار
+// دکمه شروع بازی
+document.getElementById("startBtn").onclick = () => {
+    document.getElementById("start-screen").style.display = "none";
+    canvas.style.display = "block";
+};
+
+// حرکت بازیکن
+let keys = {};
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+// ذخیره اتومات
 function saveGame() {
-    localStorage.setItem("saveData", JSON.stringify({
-        player: player,
-        currentLevel: currentLevel
+    localStorage.setItem("saveGame", JSON.stringify({
+        x: playerX,
+        y: playerY
     }));
 }
 
-// وقتی دکمه Start Game زده می‌شود
-document.getElementById("loginBtn").onclick = () => {
-    document.getElementById("auth-screen").style.display = "none";
-    document.querySelector("canvas").style.display = "block";
-};
-
-// اجرای بازی
+// بازی اصلی
 function gameLoop() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // کاراکتر سفید ساده
+    // حرکت
+    if (keys["w"]) playerY -= 3;
+    if (keys["s"]) playerY += 3;
+    if (keys["a"]) playerX -= 3;
+    if (keys["d"]) playerX += 3;
+
+    // رسم بازیکن
     ctx.fillStyle = "white";
-    ctx.fillRect(player.x, player.y, 40, 40);
+    ctx.fillRect(playerX, playerY, 40, 40);
 
     // ذخیره هر ثانیه
     if (Date.now() % 1000 < 16) saveGame();

@@ -1,37 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Ultra Pro Solo Game</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Neon Legends</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
-<div id="start">
-    <h1>🏆 Ultra Pro Solo Game</h1>
-    <button id="startBtn">Start Game</button>
-</div>
+    <!-- ===== MAIN MENU ===== -->
+    <div id="mainMenu" class="menu-screen">
+        <h1 class="game-title">CYBER NEON LEGENDS</h1>
 
-<div id="game" class="hidden">
-    <h2 id="roomLabel"></h2>
-    <div id="playersList"></div>
-    <button id="readyBtn" class="animatedButton">Ready</button>
-    <div id="scoreboard"></div>
-    <div id="game-board"></div>
-
-    <div id="chat">
-        <input id="chatInput" placeholder="Type message...">
-        <button id="sendChat">Send</button>
-        <div id="chatMessages"></div>
+        <button class="menu-btn" onclick="startGame()">START GAME</button>
+        <button class="menu-btn" onclick="openLoot()">LOOT BOXES</button>
+        <button class="menu-btn" onclick="openCards()">MY CARDS</button>
+        <button class="menu-btn" onclick="openWorlds()">WORLD SELECT</button>
+        <button class="menu-btn" onclick="openBoss()">BOSS MODE</button>
     </div>
 
-    <div id="globalLeaderboard" class="hidden">
-        <h3>🌐 Global Leaderboard</h3>
-        <div id="leaderboardList"></div>
-    </div>
-</div>
+    <!-- ===== GAME CANVAS ===== -->
+    <canvas id="gameCanvas"></canvas>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="client.js"></script>
+    <!-- ===== LOOT BOXES PAGE ===== -->
+    <div id="lootBoxScreen" class="menu-screen hidden">
+        <h2 class="section-title">LOOT BOXES</h2>
+
+        <div class="loot-container">
+            <button class="loot epic" onclick="openLootBox('epic')">Epic Box</button>
+            <button class="loot legendary" onclick="openLootBox('legendary')">Legendary Box</button>
+            <button class="loot mythic" onclick="openLootBox('mythic')">Mythic Box</button>
+        </div>
+
+        <button class="back-btn" onclick="goHome()">BACK</button>
+    </div>
+
+    <!-- ===== CARD COLLECTION PAGE ===== -->
+    <div id="cardScreen" class="menu-screen hidden">
+        <h2 class="section-title">MY CARDS</h2>
+        <div id="cardList" class="card-list"></div>
+        <button class="back-btn" onclick="goHome()">BACK</button>
+    </div>
+
+    <!-- ===== WORLD SELECT PAGE ===== -->
+    <div id="worldScreen" class="menu-screen hidden">
+        <h2 class="section-title">WORLD SELECT</h2>
+
+        <div class="world-container">
+            <button class="world-btn" onclick="selectWorld('jungle')">Jungle</button>
+            <button class="world-btn" onclick="selectWorld('ice')">Ice</button>
+            <button class="world-btn" onclick="selectWorld('desert')">Desert</button>
+            <button class="world-btn" onclick="selectWorld('tech')">Tech</button>
+        </div>
+
+        <button class="back-btn" onclick="goHome()">BACK</button>
+    </div>
+
+    <!-- ===== BOSS MODE PAGE ===== -->
+    <div id="bossScreen" class="menu-screen hidden">
+        <h2 class="section-title">BOSS MODE</h2>
+
+        <p class="boss-info">Fight powerful neon cyber bosses to earn rare cards!</p>
+
+        <button class="boss-btn" onclick="startBossFight()">Start Boss Fight</button>
+        <button class="back-btn" onclick="goHome()">BACK</button>
+    </div>
+
+    <!-- Game Script -->
+    <script src="game.js"></script>
 </body>
 </html>

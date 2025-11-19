@@ -1,47 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ultra Pro Memory Challenge</title>
-<link rel="stylesheet" href="style.css">
-<link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery of 100 Trials</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div id="start-screen" class="screen">
-    <h1>🎯 Ultra Pro Memory Challenge</h1>
-    <button id="start-btn">Start Game</button>
+<div id="start-screen">
+    <h1>Mystery of 100 Trials</h1>
+    <button id="startBtn">شروع بازی</button>
 </div>
 
-<div id="game-screen" class="screen hidden">
-    <h2 id="level-title">Level 1</h2>
-    <div id="score">Score: 0 | XP: 0 | Level: 1</div>
-    <div id="timer">Time: 60s</div>
-    <div id="game-board"></div>
+<canvas id="gameCanvas"></canvas>
 
-    <div id="loot-box" class="hidden">
-        <h3>🎁 Loot Box Unlocked!</h3>
-        <button id="open-loot">Open Loot Box</button>
-        <div id="loot-result"></div>
-    </div>
-
-    <button id="back-btn">Back</button>
-</div>
-
-<!-- Sounds -->
-<audio id="match-sound" src="match.mp3"></audio>
-<audio id="wrong-sound" src="wrong.mp3"></audio>
-<audio id="reward-sound" src="reward.mp3"></audio>
-<audio id="win-sound" src="win.mp3"></audio>
-
-<script src="game-challenge.js"></script>
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js')
-    .then(()=>console.log('Service Worker Registered'))
-    .catch(err=>console.log(err));
-}
-</script>
+<script src="engine/input.js"></script>
+<script src="engine/physics.js"></script>
+<script src="engine/camera.js"></script>
+<script src="engine/renderer.js"></script>
+<script src="game.js"></script>
 </body>
 </html>
